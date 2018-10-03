@@ -18,9 +18,11 @@
         $categoria->descricao = $dados->descricao;
 
         if($categoria->update()) {
-        	$res = array('mensagem','Categoria atualiza');
+        	$res = array('mensagem' => 'Categoria atualizada');
         } else {
-        	$res = array('mensagem','Erro na atualização da categoria');
+        	$res = array('mensagem' => 'Erro na atualização da categoria');
         }
         echo json_encode($res);
     }
+
+

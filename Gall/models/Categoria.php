@@ -48,7 +48,11 @@ class Categoria {
 		$stmt->bindParam('id', $this->id, PDO::PARAM_INT);
 		$stmt->bindParam('nome', $this->nome, PDO::PARAM_STR);
 		$stmt->bindParam('descricao', $this->descricao, PDO::PARAM_STR);
-		$stmt->execute();
+		if ($stmt->execute()){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public function delete() {
@@ -56,9 +60,9 @@ class Categoria {
 		$stmt = $this->conexao->prepare($consulta);
 		$stmt->bindParam('id', $this->id, PDO::PARAM_INT);
 		if ($stmt->execute()) {
-			return "true";
+			return true;
 		} else {
-			return "false";
+			return false;
 		}
 	}
 }
