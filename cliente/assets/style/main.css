@@ -1,0 +1,60 @@
+html,
+body {
+   width: 100%;
+   height: 100%
+}
+
+body {
+   margin: 0;
+   display: flex;
+   flex-direction: column;
+}
+
+* {
+   box-sizing: border-box;
+   border-color:#FAFAD2;
+}
+
+header{
+   display: flex;
+   background:  #ffcc66;
+   flex: none;
+   height: 5vh;
+   justify-content: space-between;
+   font-family: Blippo, fantasy;      
+   font-size: 20px;
+}
+
+main {
+   display: flex;
+   flex-grow: 1;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   background-color: #ffcc66;
+ 
+
+}
+
+footer {
+   background:  #ffcc66;
+   display: flex;
+   justify-content: center;
+   height: 8vh
+}
+
+footer .redessociais {
+   flex-grow: 1;
+   display: flex;
+   padding: .3vh
+}
+
+footer button {
+   flex-grow: 1;
+   background-color:#FAFAD2;
+   border:none;
+}
+
+div.botao button{
+   background-color:#FAFAD2;
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
+        <link rel="stylesheet" type="text/css" href="assets/style/main.css">
+        <script async defer src="assets/scripts/principal.js"> </script>
+        <style>
+
+            div.nome{
+                flex: none;
+                width: 100vw;
+                height: 10vw;
+                background: #FFEFD5;
+            }
+            div.fotinha{
+                flex: none;
+                width: 100vw;
+                height: 50vw;
+                background:#FFEFD5;
+            }
+            div.botões{
+                flex: none;
+                width: 100vw;
+                height: 10vw;
+                background: #FFEFD5;
+                display: flex;
+                justify-content: center;
+            }
+            div.botões button{
+                flex-grow: 1;     
+                background-color:#FAFAD2;
+                border:0;
+            }
+            button:hover{
+                opacity:.5
+            }
+            div.map{
+
+                 flex: none;
+                width: 100vw;
+                height: 40vw;
+                background:#FFEFD5;
+            }
+            div.avaliação{
+                flex: none;
+                width: 100vw;
+                height: 10vw;
+                background:#FFEFD5;
+            }
+            div.feedback{
+                flex: none;
+                width: 100vw;
+                height: 25vw;
+                background:#FFEFD5;
+            }
+            div.comentários{
+                flex: none;
+                width: 100vw;
+                height: 10vw;
+                background:#FFEFD5;
+                display: flex;
+            }
+            div.título{
+                flex: none;
+                width: 100vw;
+                height: 7vw;
+                background:#ffcc66;
+            }
+            div.comentários button{
+                flex-grow: 1;     
+                background-color:#FAFAD2;
+            }
+            div.show{
+                overflow: auto;
+            }
+        
+        </style>
+    </head>
+    <body>
+        <header>
+            <li>
+                <a> Qual seu destino? </a>
+            </li>
+            <div class="botao">
+                <button>?</button>
+            </div>
+        </header>
+        <main>
+            <div class="nome"> 
+                
+            </div>
+            <div class="fotinha">
+                FOTINHA
+            </div>
+            <div class="botões ">
+                <button>Seguir</button>
+                <button>Compartilhar</button>
+                <button>Add Favoritos</button>
+            </div>
+            <div class="show">
+                <div class="avaliação">
+                    AVALIAÇÃO EM ESTRELINHAS
+                </div>
+                <div>
+                    <div class="map">
+                      
+                    </div>
+                    <div class="título">
+                        COMENTÁRIO DESTAQUE
+                    </div>
+                    <div class="feedback" >
+                        FEEDBACK C/COMENTÁRIOS
+                    </div>
+                    <div class="título">
+                        TÍTULO
+                    </div>
+                    <div class="feedback" >
+                        FEEDBACK C/COMENTÁRIOS
+                    </div>
+                    <div class="título">
+                        TÍTULO
+                    </div>
+                    <div class="feedback" >
+                        FEEDBACK C/COMENTÁRIOS
+                    </div>
+                    <div class="título">
+                        TÍTULO
+                    </div>
+                    <div class="feedback" >
+                        FEEDBACK C/COMENTÁRIOS
+                    </div>
+                    <div class="título">
+                        TÍTULO
+                    </div>
+                    <div class="feedback" >
+                        FEEDBACK C/COMENTÁRIOS
+                    </div>
+                </div>
+        </main>
+        <footer>
+            <div class="redessociais"> 
+                <button>Facebook</button>
+                <button>Twitter</button>
+                <button>Instagram</button>
+            </div>
+        </footer>
+         <script>
+          function initMap() {
+        var myLatLng = {lat: -27.0054329, lng: -48.6502254};
+
+        var map = new google.maps.Map(document.querySelector('div.map'), {
+          zoom: 15,
+          center: myLatLng
+        });
+
+        //F
+    var conteudoF = "<h1>GALL</h1><button onclick='ola(-27.0054329, -48.6502254)'>Como chegar</button>"
+        var markerF = new google.maps.Marker({
+          position: {lat: -27.0054329, lng: -48.6502254},
+          map: map,
+          title: 'Casa do Gall',
+      label: 'Gall'
+        });
+    
+    var infowindowF = new google.maps.InfoWindow({
+          content: conteudoF
+        });
+    
+    markerF.addListener('click', function() {
+          infowindowF.open(map, markerF);
+        });
+    
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmpqvoLVfbyV2UeItYXGt7AxDBWFCq6iI&callback=initMap">
+    </script>
+    </body>
+</html>

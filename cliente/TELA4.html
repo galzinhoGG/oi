@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
+        <link rel="stylesheet" type="text/css" href="assets/style/main.css">
+    </head>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%
+        }
+
+        div.add > div {
+            margin-bottom: 10px
+        }
+
+        button:hover{
+            opacity:.5
+
+        }
+
+        div.BOTAO {
+            display: flex
+        }
+
+        div.BOTAO button{
+            flex-grow:1;    
+            background-color:#FAFAD2;
+
+            border:0;
+        }
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+
+        <li>
+            <a> Qual seu destino? </a>
+        </li>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <div class="botao">
+            <button>?</button>
+        </div>
+    </header>
+    <main>
+          <div class="resposta"></div>
+        <form class="add">
+            <div>
+                Digite a categoria:
+            </DIV>
+
+            <DIV>
+               <input name="categoria">
+            </div>
+
+
+            <DIV>
+                Digite o Nome:
+            </DIV>
+            <DIV>
+            <input name="nome">
+            </DIV>
+            <DIV>
+                Digite as informações:
+            </DIV>
+            <DIV>
+               <input name="informacoes">
+            </DIV>
+            <DIV>
+                Mande a foto:
+            </DIV>
+            <DIV>
+                <input name="foto">
+            </div>
+
+            <DIV>
+                Digite as coordenadas X:
+            </DIV>
+            <DIV>
+                <input name="coordenadax">
+            </div>
+            <DIV>
+                Digite as coordenadas Y:
+            </DIV>
+            <DIV>
+               <input name="coordenaday">
+            </div>
+            <DIV CLASS="BOTAO">
+               <button class="enviar-dados">enviar</button>
+
+            </DIV>
+        </form>
+
+    <div class="resposta"></div>
+
+
+
+
+
+
+    </main>
+    <footer>
+        <div class="redessociais"> 
+            <button>Facebook</button>
+            <button>Twitter</button>
+            <button>Instagram</button>
+        </div>
+    </footer>
+
+        <script>
+             let refResposta = document.querySelector('.main')
+        let refForm = document.querySelector('.add')
+        let refButtom = document.querySelector('.enviar-dados')
+        
+        async function fnEnviarDados() {
+            let inps= refForm.querySelectorAll('input')
+            let requisicao = await fetch('../servidor/recebeDados.php',{
+                method: "POST",
+                body: await JSON.stringify({"nome":inps[0].value,"categoria":inps[1].value,"informacoes":inps[2].value,"foto":inps[3].value,"coordenadax":inps[4].value,"coordenaday":inps[5].value})
+            })
+            let resposta = await requisicao.text()
+console.log(resposta);
+           /* refResposta.innerHTML = resposta.msg*/
+
+        }
+
+        refForm.addEventListener('submit', ev => ev.preventDefault())
+
+        refButtom.addEventListener('click', ev => {
+            fnEnviarDados()
+        })    
+    </script>
+</body>
+
+</html> 
