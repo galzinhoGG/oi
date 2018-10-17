@@ -10,9 +10,10 @@
     	$db = new Conexao();
     	$con = $db->getConexao();
 
-        $post = new post($con);
+        $post = new Post($con);
         $dados = json_decode(file_get_contents("php://input"));
 
+        $post->id = $post->id;
         $post->titulo = $dados->titulo;
         $post->texto = $dados->texto;
         $post->id_categoria = $dados->id_categoria;
