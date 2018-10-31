@@ -1,0 +1,13 @@
+<?php 
+	header('Content-Type:application/json');
+
+	if(!isset($_SERVER['PHP_AUTH_USER']))  {
+		header('WWW-Authenticate:Basic realm="Página Restrita" ');
+		header('HTTP/1.0 401 Unauthorized');
+		echo json_encode (["mensagem"=>"Autenticação Necessária"]);
+
+		exit;
+	} elseif ($_SERVER['PHP_AUTH_USER']=='admin')
+			&& $_SERVER ['PHP_AUTH_PW']=='admin') {
+			echo json_encode (["mensagem"=>"Bem-vindo!"])
+			}
