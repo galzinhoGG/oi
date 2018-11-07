@@ -11,7 +11,18 @@
 
     $post= new Post($con);
 
-    $resultado = $post->read();
+//verificar 3 situações:
+    //1 - não veio nenhum parametro - read()
+    //2 - veio o parametro id - read(id)
+    //3 - veio o parametro idcategoria - todos os posts dessa categoria - readByCat(idcategoria)
+    if (isset($_GET['id'])){
+        $resultado = $post->read($_GET['id']);
+    }elseif (isset($_GET['idcategoria'])) {
+        $resultado = $post->readByCat($_GET['idcategoria']);
+    }else{
+        $resultado = $post->read();
+    }
+
 
     $qtde_cats = sizeof($resultado);
 

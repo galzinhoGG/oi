@@ -9,8 +9,8 @@ class Conexao {
 	//credenciais de acesso ao BD
 	private $host = 'localhost';
 	private $dbname = 'meu_blog';
-	private $user = 'root';
-	private $passwd = '';
+	private $user = 'meu_blog';
+	private $passwd = 'meu_blog';
 
 	//variável para a conexão
 	private $conexao;
