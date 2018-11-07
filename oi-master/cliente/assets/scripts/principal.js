@@ -2,7 +2,8 @@ const categorias = document.querySelector('#categorias')
 
 
 async function josias(){
-	let res = await fetch("http://localhost/~speroni/ia16/turmaA/GabrielGall/oi-master2/Gall/api/categoria/read.php ", {
+
+	let res = await fetch("http://localhost/oi-master/Gall/api/categoria/read.php ", {
 		method: 'GET'
 	})
 	let data = await res.json()
@@ -32,13 +33,14 @@ josias()
 const oi = document.querySelector('#post')
 const conteudo = document.querySelector('#conteudo')
 
-console.log(oi)
+
 async function joseias(id){
+console.log("ui")
 	id = id || 0;
 	if(id==0){
-		var url = "http://localhost/~speroni/ia16/turmaA/GabrielGall/oi-master2/Gall/api/post/read.php";
+		var url = "http://localhost/oi-master/Gall/api/post/read.php";
 	}else{
-		var url = "http://localhost/~speroni/ia16/turmaA/GabrielGall/oi-master2/Gall/api/post/read.php?idcategoria="+id;		
+		var url = "http://localhost/oi-master/Gall/api/post/read.php?idcategoria="+id;		
 	}
 	let resp = await fetch(url, {
 		method: 'GET'
@@ -66,6 +68,14 @@ async function joseias(id){
 
 }
 joseias()
+var el = document.querySelector('img'); 
+el.addEventListener("click",function(){
+	joseias()
+});
+console.log(el);
+
+
+
 
 
 

@@ -5,23 +5,71 @@
        
         <script async defer src="assets/scripts/principal.js"> </script>
         <style>
-      
+      main{
+         box-sizing:border-box;
+         width: 100VW;
+      }
+      body{
+        margin:0;
+      }
 header{
     width: 100%;
     height: 10vh;
     background-color:#556270;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size:10px;
+    justify-content: space-between;
+    font-size:1.5em;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
+    border-top:0;
+
 }
+header div{
+    
+    flex-direction:row;
+    display:flex;
+    margin-right: 2vh;
+    margin-top:2vh;
+}
+header div img{
+     
+    max-height:10vh;
+    margin-left: 2vh;
+ 
+
+}
+div.post :first-child{
+    width: 100%;
+    height: 3vh;
+    background-color:#D3D3D3;
+    font-size:1.5em;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+
+
+
+}
+div.post :last-child{
+    width: 100%;
+    height: 3vh;
+    background-color:#FFFAFA    ;
+    font-size:2vh;
+     -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+            border-radius:5px;
+
+}
+
         
         </style>
     </head>
     <body>
          <header>
         <div id="categorias">
-          CATEGORIAS:>
+          <img id="t" src="http://abelardoluz.ifc.edu.br/wp-content/uploads/2017/06/logopreta.png" >
            
         
         </div>
@@ -40,6 +88,5 @@ header{
 
         
         </footer>
-
-    </body>
+</body>
 </html>
