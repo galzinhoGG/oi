@@ -34,13 +34,34 @@ cp config.example.yaml config.yaml      # depois ajuste o config.yaml
 
 ## Uso — passo a passo
 
-### 1. Login (uma vez)
-```bash
+### 1. Login via Google (modo CDP) — recomendado
+
+⚠️ **O Google bloqueia login em navegadores automatizados** ("este navegador
+pode não ser seguro" / a tela trava). Por isso, com login Google, use o modo
+**CDP**: você abre o **seu próprio Chrome** com depuração ligada, loga
+normalmente (o Google aceita, é um Chrome de verdade), e o scraper se conecta
+nesse Chrome. No `config.yaml`, deixe `use_cdp: true` (já vem assim).
+
+**Windows** — feche todas as janelas do Chrome e, no PowerShell, rode o atalho:
+```powershell
+.\abrir_chrome_login.bat
+```
+Ou o comando completo (numa linha só):
+```powershell
+& "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\Users\User\Downloads\Scraper\chrome-profile"
+```
+
+Vai abrir uma janela do Chrome. **Nela, faça login no Opas Garage** (com o
+Google/2FA, normal — agora funciona). **Deixe essa janela aberta** e volte ao
+PowerShell. Confirme a conexão:
+```powershell
 python scraper.py login
 ```
-Abre o navegador. **Faça login normalmente** (inclusive Google/2FA). Quando
-estiver logado, volte ao terminal e pressione **ENTER**. A sessão fica salva em
-`.pw-profile/`.
+Se aparecer "Conexão OK!", está tudo certo — pode seguir para o passo 2.
+
+> **Sem login Google?** Se o site tiver usuário/senha simples, coloque
+> `use_cdp: false` no `config.yaml` e o `python scraper.py login` abre um
+> navegador próprio; faça login nele e aperte ENTER no terminal.
 
 ### 2. Descobrir os posts
 ```bash

@@ -72,6 +72,10 @@ def load_config() -> dict:
     cfg.setdefault("headless_scrape", False)
     cfg.setdefault("download_images", True)
     cfg.setdefault("browser_channel", "chrome")
+    # Modo CDP: conectar a um Chrome REAL já aberto pelo usuário (resolve o
+    # bloqueio do login do Google em navegadores automatizados).
+    cfg.setdefault("use_cdp", False)
+    cfg.setdefault("cdp_url", "http://localhost:9222")
     if not cfg.get("base_url"):
         sys.exit("Defina 'base_url' no config.yaml")
     return cfg
@@ -128,11 +132,39 @@ def save_post(conn: sqlite3.Connection, post: dict) -> None:
 # ---------------------------------------------------------------------------
 # Navegador (Playwright, contexto persistente)
 # ---------------------------------------------------------------------------
-def launch_context(headless: bool, channel: str):
-    """Abre um navegador com perfil persistente (mantém o login entre execuções)."""
+def launch_context(cfg: dict, headless: bool):
+    """Abre/conecta o navegador. Devolve (pw, ctx, closer).
+
+    Dois modos:
+      - use_cdp: True  -> conecta a um Chrome REAL já aberto pelo usuário
+                          (necessário quando o login é via Google, que bloqueia
+                          navegadores automatizados). NÃO fecha o seu Chrome.
+      - use_cdp: False -> abre um navegador próprio com perfil persistente.
+    """
     from playwright.sync_api import sync_playwright
 
     pw = sync_playwright().start()
+
+    # ---- Modo CDP: conectar ao Chrome real já logado --------------------
+    if cfg.get("use_cdp"):
+        cdp_url = cfg.get("cdp_url") or "http://localhost:9222"
+        try:
+            browser = pw.chromium.connect_over_cdp(cdp_url)
+        except Exception as exc:
+            pw.stop()
+            sys.exit(
+                f"Não consegui conectar ao Chrome em {cdp_url} ({exc}).\n"
+                "Abra o Chrome com depuração ligada ANTES (veja o README, seção "
+                "'Login via Google') e deixe-o aberto e logado no site."
+            )
+        ctx = browser.contexts[0] if browser.contexts else browser.new_context()
+
+        def closer():
+            pw.stop()  # apenas solta a conexão; NÃO fecha o seu Chrome
+
+        return pw, ctx, closer
+
+    # ---- Modo próprio: navegador com perfil persistente -----------------
     PROFILE_DIR.mkdir(parents=True, exist_ok=True)
     launch_kwargs = dict(
         user_data_dir=str(PROFILE_DIR),
@@ -140,37 +172,61 @@ def launch_context(headless: bool, channel: str):
         viewport={"width": 1366, "height": 900},
         args=["--disable-blink-features=AutomationControlled"],
     )
+    channel = cfg.get("browser_channel")
     if channel:
         launch_kwargs["channel"] = channel  # ex.: "chrome"
     try:
         ctx = pw.chromium.launch_persistent_context(**launch_kwargs)
     except Exception as exc:
-        # Se o canal "chrome" não estiver instalado, cai para o Chromium do Playwright.
         if channel:
             print(f"[aviso] canal '{channel}' indisponível ({exc}); usando Chromium do Playwright.")
             launch_kwargs.pop("channel", None)
             ctx = pw.chromium.launch_persistent_context(**launch_kwargs)
         else:
             raise
-    return pw, ctx
+
+    def closer():
+        ctx.close()
+        pw.stop()
+
+    return pw, ctx, closer
 
 
 # ---------------------------------------------------------------------------
 # Comando: LOGIN
 # ---------------------------------------------------------------------------
 def cmd_login(cfg: dict) -> None:
+    # No modo CDP o login é feito por você no seu próprio Chrome; aqui só
+    # confirmamos que a conexão funciona e que você está logado.
+    if cfg.get("use_cdp"):
+        print("Modo CDP: conectando ao seu Chrome já aberto...")
+        pw, ctx, closer = launch_context(cfg, headless=False)
+        page = ctx.new_page()
+        try:
+            page.goto(cfg["base_url"], wait_until="domcontentloaded", timeout=60000)
+            print("Conexão OK! Título da página:", (page.title() or "")[:80])
+            print("Se você já fez login nessa janela do Chrome, pode rodar: python scraper.py all")
+        except Exception as exc:
+            print("[aviso] conectou, mas a página demorou:", exc)
+        finally:
+            page.close()
+            closer()
+        return
+
     print("Abrindo o navegador. Faça login no site (inclusive Google/2FA).")
-    pw, ctx = launch_context(headless=False, channel=cfg["browser_channel"])
+    pw, ctx, closer = launch_context(cfg, headless=False)
     page = ctx.pages[0] if ctx.pages else ctx.new_page()
-    page.goto(cfg["base_url"], wait_until="domcontentloaded")
+    try:
+        page.goto(cfg["base_url"], wait_until="domcontentloaded", timeout=60000)
+    except Exception as exc:
+        print(f"[aviso] a página inicial demorou ({exc}); você pode navegar manualmente.")
     print("\n>>> Faça o login na janela do navegador.")
     print(">>> Quando terminar e estiver logado, volte AQUI e pressione ENTER.")
     try:
         input()
     except (EOFError, KeyboardInterrupt):
         pass
-    ctx.close()
-    pw.stop()
+    closer()
     print("Sessão salva em", PROFILE_DIR)
     print("Pronto! Agora rode:  python scraper.py discover")
 
@@ -258,15 +314,15 @@ def discover_from_listings(page, cfg: dict, pattern: re.Pattern) -> set:
 
 def cmd_discover(cfg: dict) -> None:
     pattern = re.compile(cfg["post_url_pattern"])
-    pw, ctx = launch_context(headless=cfg["headless_scrape"], channel=cfg["browser_channel"])
-    page = ctx.pages[0] if ctx.pages else ctx.new_page()
+    pw, ctx, closer = launch_context(cfg, headless=cfg["headless_scrape"])
+    page = ctx.new_page()
     print("Descobrindo posts via sitemap...")
     urls = discover_from_sitemaps(page, cfg["base_url"], pattern)
     if cfg["listing_urls"]:
         print("Descobrindo posts via páginas de listagem...")
         urls |= discover_from_listings(page, cfg, pattern)
-    ctx.close()
-    pw.stop()
+    page.close()
+    closer()
 
     urls = sorted(urls)
     DATA.mkdir(parents=True, exist_ok=True)
@@ -400,8 +456,8 @@ def cmd_scrape(cfg: dict) -> None:
         sys.exit("Nenhuma URL em data/urls.txt")
 
     conn = db_connect()
-    pw, ctx = launch_context(headless=cfg["headless_scrape"], channel=cfg["browser_channel"])
-    page = ctx.pages[0] if ctx.pages else ctx.new_page()
+    pw, ctx, closer = launch_context(cfg, headless=cfg["headless_scrape"])
+    page = ctx.new_page()
     sel = cfg.get("selectors") or {}
 
     done = 0
@@ -441,8 +497,8 @@ def cmd_scrape(cfg: dict) -> None:
         print(f"    ok: '{record['title'][:60]}'  ({chars} caracteres)")
         time.sleep(cfg["delay_seconds"])
 
-    ctx.close()
-    pw.stop()
+    page.close()
+    closer()
     conn.close()
     print(f"\nConcluído. {done} posts novos extraídos.")
     cmd_export(cfg)

@@ -51,3 +51,13 @@ headless_scrape: false    # false = janela visível (recomendado se houver anti-
 download_images: true     # baixar as imagens dos posts para data/images/
 browser_channel: "chrome" # "chrome" usa o Google Chrome instalado (melhor p/ login Google);
                           # deixe "" para usar o Chromium do Playwright.
+
+# ---------------------------------------------------------------------
+# LOGIN VIA GOOGLE / 2FA  (IMPORTANTE)
+# O Google BLOQUEIA login em navegadores automatizados. Para contornar,
+# use o modo CDP: você abre o SEU Chrome com depuração ligada, loga
+# normalmente (o Google aceita), e o scraper se conecta nesse Chrome.
+# Passo a passo no README, seção "Login via Google (modo CDP)".
+# ---------------------------------------------------------------------
+use_cdp: true                      # true = conecta ao seu Chrome já logado
+cdp_url: "http://localhost:9222"   # porta de depuração usada ao abrir o Chrome
