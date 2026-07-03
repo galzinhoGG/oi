@@ -54,10 +54,14 @@ browser_channel: "chrome" # "chrome" usa o Google Chrome instalado (melhor p/ lo
 
 # ---------------------------------------------------------------------
 # LOGIN VIA GOOGLE / 2FA  (IMPORTANTE)
-# O Google BLOQUEIA login em navegadores automatizados. Para contornar,
-# use o modo CDP: você abre o SEU Chrome com depuração ligada, loga
-# normalmente (o Google aceita), e o scraper se conecta nesse Chrome.
-# Passo a passo no README, seção "Login via Google (modo CDP)".
-# ---------------------------------------------------------------------
-use_cdp: true                      # true = conecta ao seu Chrome já logado
-cdp_url: "http://localhost:9222"   # porta de depuração usada ao abrir o Chrome
+#
+# RECOMENDADO — método COOKIES: o Google bloqueia login em navegadores
+# automatizados/depuração. Então você loga no site no seu Chrome NORMAL,
+# exporta os cookies (extensão "Cookie-Editor") para o arquivo abaixo, e o
+# scraper reaproveita a sessão. Passo a passo no README.
+cookies_file: "cookies.json"       # arquivo com os cookies exportados
+
+# Alternativa — método CDP (conectar a um Chrome com depuração aberta).
+# Costuma esbarrar no bloqueio do Google; deixe use_cdp: false e use cookies.
+use_cdp: false
+cdp_url: "http://localhost:9222"

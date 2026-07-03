@@ -76,6 +76,10 @@ def load_config() -> dict:
     # bloqueio do login do Google em navegadores automatizados).
     cfg.setdefault("use_cdp", False)
     cfg.setdefault("cdp_url", "http://localhost:9222")
+    # Modo COOKIES: reaproveita a sessão exportada do seu Chrome normal
+    # (jeito mais robusto quando o login é via Google). Aponte para o arquivo
+    # de cookies exportado (ex. pela extensão "Cookie-Editor").
+    cfg.setdefault("cookies_file", "cookies.json")
     if not cfg.get("base_url"):
         sys.exit("Defina 'base_url' no config.yaml")
     return cfg
@@ -132,6 +136,42 @@ def save_post(conn: sqlite3.Connection, post: dict) -> None:
 # ---------------------------------------------------------------------------
 # Navegador (Playwright, contexto persistente)
 # ---------------------------------------------------------------------------
+def load_cookies_file(path: Path) -> list:
+    """Lê cookies exportados (formato Cookie-Editor / EditThisCookie) e
+    converte para o formato que o Playwright entende."""
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(raw, dict) and "cookies" in raw:
+        raw = raw["cookies"]
+    samesite_map = {
+        "no_restriction": "None", "none": "None",
+        "lax": "Lax", "unspecified": "Lax", "": "Lax",
+        "strict": "Strict",
+    }
+    out = []
+    for c in raw:
+        name, value = c.get("name"), c.get("value")
+        domain = c.get("domain")
+        if not name or domain is None:
+            continue
+        ck = {
+            "name": name,
+            "value": value or "",
+            "domain": domain,
+            "path": c.get("path", "/") or "/",
+            "httpOnly": bool(c.get("httpOnly", False)),
+            "secure": bool(c.get("secure", False)),
+            "sameSite": samesite_map.get(str(c.get("sameSite", "")).lower(), "Lax"),
+        }
+        exp = c.get("expirationDate") or c.get("expires")
+        if exp and not c.get("session"):
+            try:
+                ck["expires"] = int(float(exp))
+            except (TypeError, ValueError):
+                pass
+        out.append(ck)
+    return out
+
+
 def launch_context(cfg: dict, headless: bool):
     """Abre/conecta o navegador. Devolve (pw, ctx, closer).
 
@@ -184,6 +224,16 @@ def launch_context(cfg: dict, headless: bool):
             ctx = pw.chromium.launch_persistent_context(**launch_kwargs)
         else:
             raise
+
+    # Modo COOKIES: injeta a sessão exportada do seu Chrome normal.
+    cookies_path = ROOT / str(cfg.get("cookies_file") or "")
+    if cfg.get("cookies_file") and cookies_path.exists():
+        try:
+            cookies = load_cookies_file(cookies_path)
+            ctx.add_cookies(cookies)
+            print(f"[cookies] {len(cookies)} cookies carregados de {cookies_path.name}")
+        except Exception as exc:
+            print(f"[aviso] não consegui carregar {cookies_path.name}: {exc}")
 
     def closer():
         ctx.close()

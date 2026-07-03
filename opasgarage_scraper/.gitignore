@@ -1,5 +1,9 @@
 # Sessão do navegador (contém cookies/login — NUNCA versionar)
 .pw-profile/
+chrome-profile/
+
+# Cookies exportados (é o seu login — NUNCA versionar)
+cookies.json
 
 # Configuração com dados do site
 config.yaml
