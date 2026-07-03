@@ -14,15 +14,14 @@ base_url: "https://opasgarage.com.br"
 # ---------------------------------------------------------------------
 
 # Páginas de listagem para varrer procurando links de posts.
-# Deixe [] se o sitemap já resolver.
+# A descoberta tenta o sitemap automaticamente; estas páginas são um reforço.
 listing_urls:
-  - "https://opasgarage.com.br/blog"
+  - "https://opasgarage.com.br/area-do-assinante"
 
-# Regex que identifica a URL de UM POST. Abra um post real e olhe o endereço.
-# Exemplos comuns:
-#   posts em /blog/titulo-do-post   ->  "/blog/[^/]+/?$"
-#   posts em /2024/05/titulo/       ->  "/20\\d{2}/\\d{2}/"
-post_url_pattern: "/blog/[^/]+/?$"
+# Regex que identifica a URL de UM POST.
+# Os posts do Opas Garage ficam em /ANO/MES/nome.html
+#   ex.: https://opasgarage.com.br/2026/06/scintilla.html
+post_url_pattern: '/20\d{2}/\d{2}/[^/]+\.html$'
 
 # Como avançar nas páginas de listagem (paginação):
 #   - segue links cujo texto/atributo indiquem "próxima" página
