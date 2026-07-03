@@ -1,323 +1,56 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<title>Fusca Original — Módulo 1</title>
-<style>
-  @page { size:A4; margin:0; }
-  @page content { margin:18mm 17mm 20mm 17mm; }
-  * { box-sizing:border-box; }
-  html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-  :root{
-    --ink:#22242a; --ink-soft:#55585f; --gold:#f3b12b; --gold-deep:#c8860f;
-    --charcoal:#1b1d22; --charcoal-2:#24272e; --line:#e6e2d8; --cream:#faf7f0;
-  }
-  body { font-family:"Georgia","Times New Roman",serif; color:var(--ink); font-size:11.2pt; line-height:1.55; margin:0; }
-  h1,h2,h3,.kicker,th,.chk-title,.box-title,.brand,.pill { font-family:"Helvetica Neue",Arial,sans-serif; }
-
-  /* ---------- CAPA (dark, identidade Aircooled) ---------- */
-  .cover { position:relative; width:210mm; height:297mm; background:var(--charcoal); color:#fff;
-           page:cover; page-break-after:always; overflow:hidden; }
-  .cover::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:4mm; background:var(--gold); }
-  .cover-pad { position:absolute; inset:0; padding:26mm 22mm; display:flex; flex-direction:column; justify-content:space-between; }
-  .brand { display:flex; align-items:center; gap:9px; font-weight:800; font-size:15pt; letter-spacing:.01em; }
-  .brand .b-air{ color:var(--gold); } .brand .b-mkt{ color:#fff; }
-  .brand svg{ width:38px; height:22px; }
-  .kicker { letter-spacing:.32em; text-transform:uppercase; font-size:9.5pt; color:var(--gold); font-weight:700; margin-bottom:5mm; }
-  .cover h1 { font-family:"Helvetica Neue",Arial,sans-serif; font-weight:800; font-size:44pt; line-height:1.02; margin:0 0 5mm; color:#fff; }
-  .cover h1 span { color:var(--gold); }
-  .cover .sub { font-size:13.5pt; color:#c9cbd1; font-style:italic; max-width:150mm; }
-  .cover-hero { text-align:center; margin:2mm 0; }
-  .cover-hero svg{ width:120mm; height:auto; }
-  .cover-foot { display:flex; justify-content:space-between; align-items:flex-end; font-family:"Helvetica Neue",Arial,sans-serif; font-size:9.5pt; color:#8b8e96; }
-  .pill { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); border-radius:999px; padding:2mm 5mm; font-weight:700; font-size:9pt; letter-spacing:.06em; }
-
-  /* ---------- CONTEÚDO ---------- */
-  .content { page:content; }
-  h2 { font-size:16.5pt; color:var(--ink); margin:9mm 0 2mm; padding-bottom:2mm; border-bottom:2px solid var(--gold); }
-  h2 .num { color:var(--gold-deep); margin-right:7px; font-weight:800; }
-  h3 { font-size:12.5pt; color:var(--charcoal); margin:6mm 0 1mm; }
-  h3::before{ content:"▸ "; color:var(--gold-deep); }
-  p { margin:0 0 3mm; text-align:justify; }
-  ul,ol { margin:0 0 3mm; padding-left:6mm; } li { margin-bottom:1.5mm; }
-  strong { color:#141519; }
-  .lead { font-size:12pt; color:var(--ink-soft); font-style:italic; }
-  .mono { font-family:"Courier New",monospace; background:#f3efe6; padding:0 2px; border-radius:3px; }
-
-  .box { border-radius:7px; padding:4mm 5mm; margin:4mm 0; page-break-inside:avoid; font-size:10.6pt; }
-  .box-title { font-size:9pt; text-transform:uppercase; letter-spacing:.13em; font-weight:800; margin-bottom:1.5mm; }
-  .box p:last-child{ margin-bottom:0; }
-  .box.ex { background:#fdf6e3; border-left:4px solid var(--gold); }
-  .box.ex .box-title{ color:var(--gold-deep); }
-  .box.dica { background:#f1f6ef; border-left:4px solid #6f9c4b; }
-  .box.dica .box-title{ color:#4d7a2b; }
-  .box.atencao { background:#fbece2; border-left:4px solid #c0392b; }
-  .box.atencao .box-title{ color:#a5281b; }
-  .box.opas { background:var(--charcoal); color:#e8e9ec; border-left:4px solid var(--gold); }
-  .box.opas .box-title{ color:var(--gold); }
-  .box.opas strong{ color:#fff; }
-
-  table { width:100%; border-collapse:collapse; margin:3mm 0 4mm; font-size:10pt; page-break-inside:avoid; }
-  th { background:var(--charcoal); color:var(--gold); text-align:left; padding:2.5mm 3mm; font-size:9pt; text-transform:uppercase; letter-spacing:.05em; }
-  td { padding:2.2mm 3mm; border-bottom:1px solid var(--line); vertical-align:top; }
-  tr:nth-child(even) td { background:var(--cream); }
-
-  .chk { background:var(--cream); border:1px solid var(--line); border-top:3px solid var(--gold); border-radius:7px; padding:5mm 6mm; margin:4mm 0; page-break-inside:avoid; }
-  .chk-title { color:var(--charcoal); text-transform:uppercase; letter-spacing:.1em; font-size:10pt; font-weight:800; margin-bottom:3mm; }
-  .chk ul { list-style:none; padding-left:0; }
-  .chk li { padding-left:8mm; position:relative; margin-bottom:2.5mm; }
-  .chk li::before { content:"☐"; position:absolute; left:0; font-size:13pt; color:var(--gold-deep); top:-1px; }
-
-  .figrow{ display:flex; gap:4mm; margin:4mm 0; page-break-inside:avoid; }
-  .foto{ flex:1; border:2px dashed var(--gold); border-radius:7px; background:#fbf7ee; min-height:46mm;
-         display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:4mm; }
-  .foto .ico{ font-size:22pt; color:var(--gold); }
-  .foto .cap{ font-family:"Helvetica Neue",Arial,sans-serif; font-size:8.6pt; margin-top:2mm; color:var(--ink-soft); font-weight:600; }
-  .pb { page-break-before:always; }
-  .fontes { font-size:9.5pt; } .fontes li{ margin-bottom:1mm; }
-  .foot { margin-top:8mm; padding-top:3mm; border-top:1px solid var(--line); font-size:9pt; color:#8f8a7d; font-family:"Helvetica Neue",Arial,sans-serif; }
-</style>
-</head>
-<body>
-
-<!-- ============ CAPA ============ -->
-<section class="cover">
-  <div class="cover-pad">
-    <div>
-      <div class="brand">
-        <svg viewBox="0 0 120 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 48 C8 33 20 22 38 20 C48 9 66 6 80 12 C90 16 96 24 100 32
-                   C110 33 116 40 114 48" stroke="#f3b12b" stroke-width="4.5" stroke-linecap="round"/>
-          <path d="M8 48 L114 48" stroke="#f3b12b" stroke-width="4.5" stroke-linecap="round"/>
-          <path d="M40 21 C48 14 64 12 78 16" stroke="#f3b12b" stroke-width="3"/>
-          <circle cx="34" cy="49" r="11" fill="#1b1d22" stroke="#f3b12b" stroke-width="4.5"/>
-          <circle cx="90" cy="49" r="11" fill="#1b1d22" stroke="#f3b12b" stroke-width="4.5"/>
-          <circle cx="34" cy="49" r="2.5" fill="#f3b12b"/><circle cx="90" cy="49" r="2.5" fill="#f3b12b"/>
-        </svg>
-        <span><span class="b-air">Aircooled</span> <span class="b-mkt">Market</span></span>
-      </div>
-    </div>
-
-    <div>
-      <div class="kicker">Curso Fusca Original · Apostila</div>
-      <h1>Módulo 1<br><span>Identificação &amp; Datação</span></h1>
-      <div class="sub">Como descobrir, com segurança, o ano e a identidade real de um Fusca</div>
-      <div class="cover-hero">
-        <svg viewBox="0 0 320 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 108 C18 74 44 50 84 46 C106 22 150 14 186 22 C214 28 232 44 244 64
-                   C286 66 302 84 300 108" stroke="#f3b12b" stroke-width="6" stroke-linecap="round"/>
-          <path d="M18 108 L300 108" stroke="#f3b12b" stroke-width="6" stroke-linecap="round"/>
-          <path d="M92 48 C112 30 156 24 188 30 C206 33 220 42 230 56"
-                stroke="#f3b12b" stroke-width="3.5" opacity="0.8"/>
-          <path d="M150 26 L150 54" stroke="#f3b12b" stroke-width="3" opacity="0.6"/>
-          <circle cx="86" cy="110" r="26" fill="#1b1d22" stroke="#f3b12b" stroke-width="6"/>
-          <circle cx="232" cy="110" r="26" fill="#1b1d22" stroke="#f3b12b" stroke-width="6"/>
-          <circle cx="86" cy="110" r="6" fill="#f3b12b"/><circle cx="232" cy="110" r="6" fill="#f3b12b"/>
-        </svg>
-      </div>
-    </div>
-
-    <div class="cover-foot">
-      <span>Fusca alemão e brasileiro · 1950–1986 / 1993–1996</span>
-      <span class="pill">Módulo 1 de 9</span>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTEÚDO ============ -->
-<div class="content">
-
-<h2><span class="num">1.0</span>Por que datar e identificar vem primeiro</h2>
-<p class="lead">Antes de falar em parachoque, cor ou motor original, é preciso responder a uma pergunta:
-que Fusca é esse, afinal — e de que ano ele realmente é?</p>
-<p>Toda avaliação de originalidade parte da <strong>identidade correta do carro</strong>. Um item só é
-"original" quando você sabe <em>original de quê</em>: de que ano, de que versão, de que fase de produção.</p>
-
-<div class="box ex">
-  <div class="box-title">Exemplo</div>
-  <p>Um parachoque com "bananinhas" (sobre-guarnições) é certíssimo num Fusca 1975, mas totalmente errado
-  num 1965 — que usava parachoque reto e liso. O mesmo item, "original" num carro e "errado" no outro.
-  Sem datar primeiro, é impossível avaliar.</p>
-</div>
-
-<p>Neste módulo você aprende a ler o "RG" do Fusca — seus vários números de fábrica — e a separar três coisas
-que muita gente confunde: <strong>ano de fabricação</strong>, <strong>ano/modelo</strong> e
-<strong>ano do documento</strong>.</p>
-
-<!-- 1.1 -->
-<h2><span class="num">1.1</span>Os sete números do Fusca</h2>
-<p>Um Fusca de fábrica carrega <strong>vários números</strong>, cada um contando uma parte da história.
-Decore onde ficam — serão sua bússola no curso inteiro.</p>
-<table>
-  <tr><th>Número</th><th>Onde fica</th></tr>
-  <tr><td><strong>Chassi</strong> (o principal)</td><td>batido no túnel central, sob o banco traseiro, junto à tampa de inspeção do câmbio</td></tr>
-  <tr><td><strong>Plaqueta de identificação</strong></td><td>no berço do estepe (atrás do pneu sobressalente); traz ano, chassi, capacidade de carga e Tipo</td></tr>
-  <tr><td><strong>Número da carroceria</strong></td><td>logo abaixo da plaqueta de identificação (fase clássica)</td></tr>
-  <tr><td><strong>Número do motor</strong></td><td>no próprio bloco, visível ao abrir a tampa traseira</td></tr>
-  <tr><td><strong>Caixa de câmbio</strong> (susp. traseira)</td><td>gravado na carcaça da transmissão; costuma só aparecer com o câmbio removido</td></tr>
-  <tr><td><strong>Suspensão dianteira</strong></td><td>lado direito do quadro, no tubo que sustenta o batente de borracha</td></tr>
-  <tr><td><strong>Ano de fabricação e Tipo</strong></td><td>estampados/pinados na própria plaqueta de identificação</td></tr>
-</table>
-<div class="box dica">
-  <div class="box-title">Dica de originalidade</div>
-  <p>O número da <strong>suspensão dianteira</strong> é um teste silencioso: só os quadros originais de fábrica
-  o possuem. Se ele não estiver mais lá, é sinal de que o quadro da dianteira foi trocado.</p>
-</div>
-
-<!-- 1.2 -->
-<h2><span class="num">1.2</span>A regra de ouro: chassi = plaqueta</h2>
-<p>O número do chassi (no túnel, sob o banco traseiro) <strong>deve ser exatamente o mesmo</strong> que consta
-na plaqueta de identificação (atrás do estepe). Conferir se os dois batem é, sem exagero, a
-<strong>verificação mais importante que existe</strong> antes de comprar qualquer Fusca.</p>
-<div class="box ex">
-  <div class="box-title">Exemplo de conferência</div>
-  <p>Você levanta o banco traseiro e lê no túnel <span class="mono">BS-1-234567</span>. Vai atrás do estepe e a
-  plaqueta diz o mesmo número. ✔️ Identidade coerente. Se a plaqueta trouxesse
-  <span class="mono">BS-1-999888</span>, seria alerta vermelho — plaqueta trocada ou identidade adulterada.</p>
-</div>
-<p>O motor é caso à parte: por ser a peça que mais troca de carro na vida de um Fusca, o número do motor
-<strong>raramente "casa"</strong> com o chassi — e isso, por si só, não é problema. O que ele revela é o
-<em>tipo/geração</em> do propulsor (Módulo 4).</p>
-<div class="box atencao">
-  <div class="box-title">Atenção · os três "anos"</div>
-  <p>O <strong>ano do documento</strong> (CRLV) nem sempre reflete o carro real. Um Fusca fabricado em novembro
-  pode já ser <strong>ano/modelo</strong> do ano seguinte, e o documento pode estar defasado por reemplacamento.
-  <strong>Datar pela chapa resolve a ambiguidade.</strong></p>
-</div>
-
-<!-- 1.3 -->
-<h2 class="pb"><span class="num">1.3</span>A marcação do chassi no túnel conta a época</h2>
-<p>Antes mesmo de ler o número, a <strong>forma como ele foi gravado</strong> no túnel já ajuda a datar o carro
-— um detalhe precioso e difícil de falsificar:</p>
-<table>
-  <tr><th>Período</th><th>Como o número aparece no túnel</th></tr>
-  <tr><td>1949 a março/1952</td><td>número pinado <strong>sobre um ressalto</strong> (saliência) do túnel</td></tr>
-  <tr><td>março/1952 a 1955</td><td>número dentro de um pequeno <strong>rebaixo</strong>, feito para proteger a marcação</td></tr>
-  <tr><td>a partir de 1956 (± janeiro)</td><td>local do túnel passa a ser <strong>totalmente liso</strong></td></tr>
-</table>
-<div class="figrow">
-  <div class="foto"><div class="ico">📷</div><div class="cap">FOTO: número no túnel sobre ressalto (1949–52)</div></div>
-  <div class="foto"><div class="ico">📷</div><div class="cap">FOTO: número no túnel liso (a partir de 1956)</div></div>
-</div>
-<div class="box ex">
-  <div class="box-title">Exemplo de datação sem documento</div>
-  <p>Um vendedor jura que o carro é 1953, mas o número do chassi está sobre um <strong>ressalto</strong> saliente.
-  Contradição: o ressalto sumiu em março de 1952. Ou o carro é anterior, ou o assoalho foi enxertado. A chapa
-  entrega o que o papel esconde.</p>
-</div>
-<h3>O número do motor também evoluiu</h3>
-<p>Até 1949, a numeração do motor ficava <strong>acima</strong> da inscrição
-<span class="mono">Zündfolge 1-4-3-2</span> (a ordem de explosão dos cilindros). De 1949/1950 em diante,
-passou para <strong>abaixo</strong> dessa inscrição — pista fina para flagrar bloco fora de época.</p>
-
-<!-- 1.4 -->
-<h2><span class="num">1.4</span>As eras da plaqueta de identificação</h2>
-<p>A plaqueta é uma linha do tempo em metal. Reconhecer a "cara" dela por período é meio caminho para datar o
-carro. Corte importante: as regras clássicas de localização valem <strong>até o início de 1964</strong>
-(até o chassi <span class="mono">B4-142.238</span>); depois disso mudam a posição da plaqueta e do número da
-carroceria.</p>
-
-<h3>Era alemã e início nacional (1950–1959)</h3>
-<ul>
-  <li>Plaqueta de <strong>ferro</strong>, cabeçalho <span class="mono">Volkswagenwerk G.m.b.H</span>, campos em
-  alemão (<span class="mono">Baumuster</span>, <span class="mono">Fahrgestell-Nr.</span>,
-  <span class="mono">Baujahr</span>, <span class="mono">Hubraum 1131</span>…).</li>
-  <li>Fixada por <strong>4 rebites de ferro de cabeça lisa</strong> (não é rebite pop).</li>
-  <li>Chassi (a partir do <span class="mono">-1-</span>), dois últimos dígitos do ano e complemento do Tipo
-  (A, B, C, D…) eram <strong>pinados à mão</strong>; o resto vinha pré-estampado.</li>
-</ul>
-<h3>Era nacional (1960–1969)</h3>
-<ul>
-  <li><strong>1960</strong> é o primeiro ano da plaqueta nacional (<span class="mono">Volkswagen do Brasil S/A ·
-  INDÚSTRIA BRASILEIRA</span>) — mas nos primeiros meses ainda saíram Fuscas com a plaqueta alemã de 1959.</li>
-  <li>Passa a <strong>2 rebites</strong> de cabeça lisa; o Tipo <span class="mono">VW1/11</span> vira
-  <span class="mono">11/</span>.</li>
-  <li>A partir de <strong>dez/1961</strong>, pina-se também a letra <span class="mono">B</span> após "Chassis Nº".</li>
-  <li>No Brasil o Tipo era sempre <span class="mono">3</span> — só existia a versão <strong>Luxo</strong>.</li>
-</ul>
-<h3>Duas plaquetas: 1300 e 1500 (1970–1986)</h3>
-<ul>
-  <li>Com o <strong>Fusca 1500 (agosto/1970)</strong>, a VW passou a usar <strong>duas plaquetas</strong> — uma
-  para o 1300, outra para o 1500 — por causa da diferença de pesos máximos.</li>
-  <li>Chassi do <strong>1300 começa com <span class="mono">BJ</span></strong>; o do <strong>1500 com
-  <span class="mono">BS</span></strong>. De ago/70 a set/72 só os números eram pinados; de <strong>out/72</strong>
-  as letras <span class="mono">BJ</span>/<span class="mono">BS</span> passam a vir pré-estampadas.</li>
-  <li>De <strong>1993 a 1996</strong> (Fusca Itamar), a plaqueta de identificação <strong>deixa de equipar</strong> o carro.</li>
-</ul>
-<div class="figrow">
-  <div class="foto"><div class="ico">📷</div><div class="cap">FOTO: plaqueta alemã de ferro, 4 rebites (1950–59)</div></div>
-  <div class="foto"><div class="ico">📷</div><div class="cap">FOTO: plaqueta nacional BJ/BS (1970–86)</div></div>
-</div>
-<div class="box ex">
-  <div class="box-title">Exemplo de leitura rápida</div>
-  <p>Plaqueta de <strong>ferro, 4 rebites lisos</strong>, texto em alemão? → 1950-59. Plaqueta com
-  <span class="mono">INDÚSTRIA BRASILEIRA</span> e <strong>2 rebites</strong>? → a partir de 1960. Chassi
-  pré-estampado com <span class="mono">BS</span>? → Fusca 1500, de out/72 em diante.</p>
-</div>
-
-<!-- 1.5 -->
-<h2 class="pb"><span class="num">1.5</span>A outra plaqueta: a da carroceria</h2>
-<p>Não confunda com a de identificação. A <strong>plaqueta da carroceria</strong> é uma segunda chapa,
-introduzida pela VW do Brasil em <strong>meados de janeiro de 1973</strong>, fixada por <strong>2 rebites</strong>
-na borda superior da <strong>saia dianteira</strong> (na Kombi, na parede atrás do banco do motorista).</p>
-<table>
-  <tr><th>Geração</th><th>O que traz</th></tr>
-  <tr><td>Até março/1973</td><td>ausência de plaqueta na saia dianteira</td></tr>
-  <tr><td>Primeiras plaquetas</td><td>4 dígitos, só o tipo de carroceria (<span class="mono">5000</span> = Fusca 1500; <span class="mono">4200</span> = Fusca 1300)</td></tr>
-  <tr><td>Segunda geração</td><td>passa a incluir o <strong>código da cor</strong> do veículo</td></tr>
-  <tr><td>A partir de 1977</td><td>padrão de <strong>10 dígitos</strong> (cor + tipo, com zeros à esquerda)</td></tr>
-</table>
-<div class="box ex">
-  <div class="box-title">Exemplo</div>
-  <p>Uma plaqueta de carroceria começando com <span class="mono">4200</span> confirma que aquela é uma carroceria
-  de <strong>Fusca 1300</strong>. Já o <strong>código de cor</strong> (nas plaquetas mais novas) permite comparar
-  com a cor atual: se não bater, o carro <strong>foi repintado</strong> em cor diferente da de fábrica.</p>
-</div>
-<div class="box dica">
-  <div class="box-title">Por que essa plaqueta vale ouro</div>
-  <p>De tudo o que ela informa, o <strong>código da cor</strong> é o dado mais valioso: é a base do Módulo 6
-  (Pintura e Cores Originais) e a prova mais direta de repintura.</p>
-</div>
-
-<!-- 1.6 -->
-<h2><span class="num">1.6</span>Sinais de alerta na numeração</h2>
-<ul>
-  <li><strong>Numeração remarcada:</strong> dígitos com espaçamento irregular, profundidade ou tipografia fora do padrão da época.</li>
-  <li><strong>Solda/remendo no túnel</strong> justo na região do número — possível enxerto de assoalho.</li>
-  <li><strong>Plaqueta fora do padrão do ano:</strong> rebites errados (pop no lugar de cabeça lisa), posição ou cabeçalho incoerentes.</li>
-  <li><strong>Suspensão dianteira sem número</strong> → quadro trocado (não é original de fábrica).</li>
-  <li><strong>Chassi ≠ plaqueta</strong> → alerta máximo; investigue antes de qualquer negócio.</li>
-</ul>
-<div class="box atencao">
-  <div class="box-title">Regra de ouro</div>
-  <p>Originalidade sem <strong>identidade legítima</strong> não vale nada. Um Fusca "todo original" sobre uma
-  identidade duvidosa é um problema, não um tesouro. Confirme a chapa <em>antes</em> de valorizar os detalhes.</p>
-</div>
-
-<!-- CHECKLIST -->
-<div class="chk">
-  <div class="chk-title">✓ Checklist de datação — leve na vistoria</div>
-  <ul>
-    <li>Localizei e fotografei o <strong>número de chassi</strong> no túnel, sob o banco traseiro.</li>
-    <li>Achei a <strong>plaqueta de identificação</strong> atrás do estepe e conferi se o chassi <strong>bate</strong>.</li>
-    <li>Observei a <strong>marcação física</strong> do túnel (ressalto / rebaixo / liso) e se combina com o ano.</li>
-    <li>Anotei o <strong>número do motor</strong> (sem esperar que "case" com o chassi).</li>
-    <li>Verifiquei o <strong>número da suspensão dianteira</strong> (ausência = quadro trocado).</li>
-    <li>Identifiquei a <strong>era da plaqueta</strong> (alemã / nacional 60-69 / BJ-BS 70-86 / sem plaqueta 93-96).</li>
-    <li>Havendo plaqueta de carroceria, li o <strong>código da cor</strong> para checar repintura.</li>
-    <li>Procurei <strong>sinais de remarcação</strong> e anotei dúvidas para conferir no acervo.</li>
-  </ul>
-</div>
-
-<h3>No próximo módulo</h3>
-<p><strong>Módulo 2 — Evolução ano a ano.</strong> Agora que você sabe datar pela chapa, vamos ao que muda
-visual e tecnicamente em cada fase (do split ao corujão), para que a datação e a "cara" do carro contem a
-mesma história.</p>
-
-<div class="foot">
-  Curso Fusca Original — Módulo 1 · © Aircooled Market. Todos os direitos reservados. Reprodução proibida.
-</div>
-
-</div>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<title>Módulo 1 Identificação & Datação</title><style>
+@page { size:A4; margin:0; } @page content { margin:18mm 17mm 20mm 17mm; }
+* { box-sizing:border-box; } html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+:root{ --ink:#22242a; --ink-soft:#55585f; --gold:#f3b12b; --gold-deep:#c8860f; --charcoal:#1b1d22; --line:#e6e2d8; --cream:#faf7f0; }
+body { font-family:"Georgia","Times New Roman",serif; color:var(--ink); font-size:11.2pt; line-height:1.55; margin:0; }
+h1,h2,h3,.kicker,th,.chk-title,.box-title,.brand,.pill { font-family:"Helvetica Neue",Arial,sans-serif; }
+.cover { position:relative; width:210mm; height:297mm; background:var(--charcoal); color:#fff; page:cover; page-break-after:always; overflow:hidden; }
+.cover::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:4mm; background:var(--gold); }
+.cover-pad { position:absolute; inset:0; padding:26mm 22mm; display:flex; flex-direction:column; justify-content:space-between; }
+.brand { display:flex; align-items:center; gap:9px; font-weight:800; font-size:15pt; }
+.brand .b-air{ color:var(--gold);} .brand .b-mkt{ color:#fff;} .brand svg{ width:38px; height:22px; }
+.kicker { letter-spacing:.32em; text-transform:uppercase; font-size:9.5pt; color:var(--gold); font-weight:700; margin-bottom:5mm; }
+.cover h1 { font-family:"Helvetica Neue",Arial,sans-serif; font-weight:800; font-size:42pt; line-height:1.03; margin:0 0 5mm; color:#fff; }
+.cover h1 span { color:var(--gold); }
+.cover .sub { font-size:13pt; color:#c9cbd1; font-style:italic; max-width:150mm; }
+.cover-hero { text-align:center; } .cover-hero svg{ width:118mm; height:auto; }
+.cover-foot { display:flex; justify-content:space-between; align-items:flex-end; font-family:"Helvetica Neue",Arial,sans-serif; font-size:9.5pt; color:#8b8e96; }
+.pill { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); border-radius:999px; padding:2mm 5mm; font-weight:700; font-size:9pt; letter-spacing:.06em; }
+.content { page:content; }
+h2 { font-size:16.5pt; color:var(--ink); margin:9mm 0 2mm; padding-bottom:2mm; border-bottom:2px solid var(--gold); }
+h2 .num { color:var(--gold-deep); margin-right:7px; font-weight:800; }
+h3 { font-size:12.5pt; color:var(--charcoal); margin:6mm 0 1mm; } h3::before{ content:"▸ "; color:var(--gold-deep); }
+p { margin:0 0 3mm; text-align:justify; } ul,ol { margin:0 0 3mm; padding-left:6mm; } li { margin-bottom:1.5mm; }
+strong { color:#141519; } .lead { font-size:12pt; color:var(--ink-soft); font-style:italic; }
+.mono { font-family:"Courier New",monospace; background:#f3efe6; padding:0 2px; border-radius:3px; }
+.box { border-radius:7px; padding:4mm 5mm; margin:4mm 0; page-break-inside:avoid; font-size:10.6pt; }
+.box-title { font-size:9pt; text-transform:uppercase; letter-spacing:.13em; font-weight:800; margin-bottom:1.5mm; }
+.box p:last-child{ margin-bottom:0; }
+.box.ex { background:#fdf6e3; border-left:4px solid var(--gold); } .box.ex .box-title{ color:var(--gold-deep); }
+.box.dica { background:#f1f6ef; border-left:4px solid #6f9c4b; } .box.dica .box-title{ color:#4d7a2b; }
+.box.atencao { background:#fbece2; border-left:4px solid #c0392b; } .box.atencao .box-title{ color:#a5281b; }
+table { width:100%; border-collapse:collapse; margin:3mm 0 4mm; font-size:10pt; page-break-inside:avoid; }
+th { background:var(--charcoal); color:var(--gold); text-align:left; padding:2.5mm 3mm; font-size:9pt; text-transform:uppercase; letter-spacing:.05em; }
+td { padding:2.2mm 3mm; border-bottom:1px solid var(--line); vertical-align:top; } tr:nth-child(even) td { background:var(--cream); }
+.figrow{ display:flex; gap:4mm; margin:4mm 0; page-break-inside:avoid; }
+.foto{ flex:1; border:2px dashed var(--gold); border-radius:7px; background:#fbf7ee; min-height:44mm; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:4mm; }
+.foto .ico{ font-size:20pt; color:var(--gold); } .foto .cap{ font-family:"Helvetica Neue",Arial,sans-serif; font-size:8.4pt; margin-top:2mm; color:var(--ink-soft); font-weight:600; }
+.chk { background:var(--cream); border:1px solid var(--line); border-top:3px solid var(--gold); border-radius:7px; padding:5mm 6mm; margin:4mm 0; page-break-inside:avoid; }
+.chk-title { color:var(--charcoal); text-transform:uppercase; letter-spacing:.1em; font-size:10pt; font-weight:800; margin-bottom:3mm; }
+.chk ul { list-style:none; padding-left:0; } .chk li { padding-left:8mm; position:relative; margin-bottom:2.5mm; }
+.chk li::before { content:"☐"; position:absolute; left:0; font-size:13pt; color:var(--gold-deep); top:-1px; }
+.pb { page-break-before:always; }
+.foot { margin-top:8mm; padding-top:3mm; border-top:1px solid var(--line); font-size:9pt; color:#8f8a7d; font-family:"Helvetica Neue",Arial,sans-serif; }
+</style></head><body>
+<section class="cover"><div class="cover-pad">
+  <div class="brand"><svg viewBox="0 0 120 66" fill="none"><path d="M8 48 C8 33 20 22 38 20 C48 9 66 6 80 12 C90 16 96 24 100 32 C110 33 116 40 114 48" stroke="#f3b12b" stroke-width="4.5" stroke-linecap="round"/><path d="M8 48 L114 48" stroke="#f3b12b" stroke-width="4.5" stroke-linecap="round"/><path d="M40 21 C48 14 64 12 78 16" stroke="#f3b12b" stroke-width="3"/><circle cx="34" cy="49" r="11" fill="#1b1d22" stroke="#f3b12b" stroke-width="4.5"/><circle cx="90" cy="49" r="11" fill="#1b1d22" stroke="#f3b12b" stroke-width="4.5"/><circle cx="34" cy="49" r="2.5" fill="#f3b12b"/><circle cx="90" cy="49" r="2.5" fill="#f3b12b"/></svg><span><span class="b-air">Aircooled</span> <span class="b-mkt">Market</span></span></div>
+  <div><div class="kicker">Curso Fusca Original · Apostila</div>
+    <h1>Módulo 1<br><span>Identificação & Datação</span></h1>
+    <div class="sub">Como descobrir, com segurança, o ano e a identidade real de um Fusca</div>
+    <div class="cover-hero"><svg viewBox="0 0 320 150" fill="none"><path d="M18 108 C18 74 44 50 84 46 C106 22 150 14 186 22 C214 28 232 44 244 64 C286 66 302 84 300 108" stroke="#f3b12b" stroke-width="6" stroke-linecap="round"/><path d="M18 108 L300 108" stroke="#f3b12b" stroke-width="6" stroke-linecap="round"/><path d="M92 48 C112 30 156 24 188 30 C206 33 220 42 230 56" stroke="#f3b12b" stroke-width="3.5" opacity="0.8"/><path d="M150 26 L150 54" stroke="#f3b12b" stroke-width="3" opacity="0.6"/><circle cx="86" cy="110" r="26" fill="#1b1d22" stroke="#f3b12b" stroke-width="6"/><circle cx="232" cy="110" r="26" fill="#1b1d22" stroke="#f3b12b" stroke-width="6"/><circle cx="86" cy="110" r="6" fill="#f3b12b"/><circle cx="232" cy="110" r="6" fill="#f3b12b"/></svg></div></div>
+  <div class="cover-foot"><span>Fusca alemão e brasileiro · 1950–1986 / 1993–1996</span><span class="pill">Módulo 1 de 9</span></div>
+</div></section>
+<div class="content"><h2><span class="num">1.0</span>Por que datar e identificar vem primeiro</h2><p class="lead">Antes de falar em parachoque, cor ou motor original, é preciso responder a uma pergunta: que Fusca é esse, afinal — e de que ano ele realmente é?</p><p>Toda avaliação de originalidade parte da <strong>identidade correta do carro</strong>. Um item só é "original" quando você sabe <em>original de quê</em>: de que ano, de que versão, de que fase de produção.</p><div class="box ex"><div class="box-title">Exemplo</div><p>Um parachoque com "bananinhas" (sobre-guarnições) é certíssimo num Fusca 1975, mas errado num 1965 — que usava parachoque reto e liso. O mesmo item, "original" num carro e "errado" no outro. Sem datar primeiro, é impossível avaliar.</p></div><p>Neste módulo você aprende a ler o "RG" do Fusca — seus vários números de fábrica — e a separar três coisas que muita gente confunde: <strong>ano de fabricação</strong>, <strong>ano/modelo</strong> e <strong>ano do documento</strong>.</p><h2><span class="num">1.1</span>Os sete números do Fusca</h2><p>Um Fusca de fábrica carrega <strong>vários números</strong>, cada um contando uma parte da história. Decore onde ficam.</p><table><tr><th>Número</th><th>Onde fica</th></tr><tr><td><strong>Chassi</strong> (o principal)</td><td>batido no túnel central, sob o banco traseiro, junto à tampa de inspeção do câmbio</td></tr><tr><td><strong>Plaqueta de identificação</strong></td><td>no berço do estepe (atrás do pneu sobressalente); traz ano, chassi, capacidade de carga e Tipo</td></tr><tr><td><strong>Número da carroceria</strong></td><td>logo abaixo da plaqueta de identificação (fase clássica)</td></tr><tr><td><strong>Número do motor</strong></td><td>no próprio bloco, visível ao abrir a tampa traseira</td></tr><tr><td><strong>Caixa de câmbio</strong></td><td>gravado na carcaça da transmissão; costuma só aparecer com o câmbio removido</td></tr><tr><td><strong>Suspensão dianteira</strong></td><td>lado direito do quadro, no tubo que sustenta o batente de borracha</td></tr><tr><td><strong>Ano e Tipo</strong></td><td>estampados/pinados na própria plaqueta de identificação</td></tr></table><div class="box dica"><div class="box-title">Dica de originalidade</div><p>O número da <strong>suspensão dianteira</strong> é um teste silencioso: só os quadros originais de fábrica o possuem. Se ele não estiver mais lá, o quadro da dianteira foi trocado.</p></div><h2><span class="num">1.2</span>A regra de ouro: chassi = plaqueta</h2><p>O número do chassi (no túnel, sob o banco traseiro) <strong>deve ser exatamente o mesmo</strong> que consta na plaqueta de identificação (atrás do estepe). Conferir se os dois batem é a <strong>verificação mais importante que existe</strong> antes de comprar qualquer Fusca.</p><div class="box ex"><div class="box-title">Exemplo de conferência</div><p>Você lê no túnel <span class="mono">BS-1-234567</span> e a plaqueta diz o mesmo número. ✔️ Identidade coerente. Se a plaqueta trouxesse outro número, seria alerta vermelho — plaqueta trocada ou identidade adulterada.</p></div><p>O motor é caso à parte: por ser a peça que mais troca de carro na vida de um Fusca, o número do motor <strong>raramente "casa"</strong> com o chassi — e isso, por si só, não é problema. Ele revela o <em>tipo/geração</em> do propulsor (Módulo 4).</p><div class="box atencao"><div class="box-title">Atenção · os três "anos"</div><p>O <strong>ano do documento</strong> (CRLV) nem sempre reflete o carro real. Um Fusca fabricado em novembro pode já ser <strong>ano/modelo</strong> do ano seguinte, e o documento pode estar defasado. <strong>Datar pela chapa resolve a ambiguidade.</strong></p></div><h2 class="pb"><span class="num">1.3</span>A marcação do chassi no túnel conta a época</h2><p>Antes de ler o número, a <strong>forma como ele foi gravado</strong> no túnel já ajuda a datar o carro — detalhe precioso e difícil de falsificar:</p><table><tr><th>Período</th><th>Como o número aparece no túnel</th></tr><tr><td>1949 a março/1952</td><td>número pinado <strong>sobre um ressalto</strong> (saliência) do túnel</td></tr><tr><td>março/1952 a 1955</td><td>número dentro de um pequeno <strong>rebaixo</strong>, feito para proteger a marcação</td></tr><tr><td>a partir de 1956 (± janeiro)</td><td>local do túnel passa a ser <strong>totalmente liso</strong></td></tr></table><div class="figrow"><div class="foto"><div class="ico">📷</div><div class="cap">FOTO: número no túnel sobre ressalto (1949–52)</div></div><div class="foto"><div class="ico">📷</div><div class="cap">FOTO: número no túnel liso (a partir de 1956)</div></div></div><div class="box ex"><div class="box-title">Exemplo de datação sem documento</div><p>Um vendedor jura que o carro é 1953, mas o número está sobre um <strong>ressalto</strong> saliente — que sumiu em março de 1952. Ou o carro é anterior, ou o assoalho foi enxertado. A chapa entrega o que o papel esconde.</p></div><h3>O número do motor também evoluiu</h3><p>Até 1949, a numeração do motor ficava <strong>acima</strong> da inscrição <span class="mono">Zündfolge 1-4-3-2</span> (a ordem de explosão dos cilindros). De 1949/1950 em diante, passou para <strong>abaixo</strong> dessa inscrição.</p><h2><span class="num">1.4</span>As eras da plaqueta de identificação</h2><p>A plaqueta é uma linha do tempo em metal. Corte importante: as regras clássicas valem <strong>até o início de 1964</strong> (até o chassi <span class="mono">B4-142.238</span>); depois disso mudam a posição da plaqueta e do número da carroceria.</p><h3>Era alemã e início nacional (1950–1959)</h3><ul><li>Plaqueta de <strong>ferro</strong>, cabeçalho <span class="mono">Volkswagenwerk G.m.b.H</span>, campos em alemão.</li><li>Fixada por <strong>4 rebites de ferro de cabeça lisa</strong> (não é rebite pop).</li><li>Chassi (a partir do <span class="mono">-1-</span>), dois últimos dígitos do ano e complemento do Tipo eram <strong>pinados à mão</strong>.</li></ul><h3>Era nacional (1960–1969)</h3><ul><li><strong>1960</strong> é o primeiro ano da plaqueta nacional (<span class="mono">INDÚSTRIA BRASILEIRA</span>) — mas nos primeiros meses ainda saíram Fuscas com a plaqueta alemã de 1959.</li><li>Passa a <strong>2 rebites</strong>; a partir de <strong>dez/1961</strong> pina-se também a letra <span class="mono">B</span> após "Chassis Nº".</li><li>No Brasil o Tipo era sempre <span class="mono">3</span> — só existia a versão <strong>Luxo</strong>.</li></ul><h3>Duas plaquetas: 1300 e 1500 (1970–1986)</h3><ul><li>Com o <strong>Fusca 1500 (agosto/1970)</strong>, a VW passou a usar <strong>duas plaquetas</strong> — por causa da diferença de pesos máximos.</li><li>Chassi do <strong>1300 começa com <span class="mono">BJ</span></strong>; o do <strong>1500 com <span class="mono">BS</span></strong>. De out/72 as letras passam a vir pré-estampadas.</li><li>De <strong>1993 a 1996</strong> (Fusca Itamar), a plaqueta de identificação <strong>deixa de equipar</strong> o carro.</li></ul><div class="figrow"><div class="foto"><div class="ico">📷</div><div class="cap">FOTO: plaqueta alemã de ferro, 4 rebites (1950–59)</div></div><div class="foto"><div class="ico">📷</div><div class="cap">FOTO: plaqueta nacional BJ/BS (1970–86)</div></div></div><div class="box ex"><div class="box-title">Exemplo de leitura rápida</div><p>Plaqueta de <strong>ferro, 4 rebites lisos</strong>, texto em alemão? → 1950-59. Com <span class="mono">INDÚSTRIA BRASILEIRA</span> e <strong>2 rebites</strong>? → a partir de 1960. Chassi pré-estampado com <span class="mono">BS</span>? → Fusca 1500, de out/72 em diante.</p></div><h2 class="pb"><span class="num">1.5</span>A outra plaqueta: a da carroceria</h2><p>Não confunda com a de identificação. A <strong>plaqueta da carroceria</strong> é uma segunda chapa, introduzida pela VW do Brasil em <strong>meados de janeiro de 1973</strong>, fixada por <strong>2 rebites</strong> na borda superior da <strong>saia dianteira</strong>.</p><table><tr><th>Geração</th><th>O que traz</th></tr><tr><td>Até março/1973</td><td>ausência de plaqueta na saia dianteira</td></tr><tr><td>Primeiras plaquetas</td><td>4 dígitos, só o tipo de carroceria (<span class="mono">5000</span> = 1500; <span class="mono">4200</span> = 1300)</td></tr><tr><td>Segunda geração</td><td>passa a incluir o <strong>código da cor</strong> do veículo</td></tr><tr><td>A partir de 1977</td><td>padrão de <strong>10 dígitos</strong> (cor + tipo, com zeros à esquerda)</td></tr></table><div class="figrow"><div class="foto"><div class="ico">📷</div><div class="cap">FOTO: plaqueta da carroceria na saia dianteira</div></div><div class="foto"><div class="ico">📷</div><div class="cap">FOTO: detalhe do código de cor na plaqueta</div></div></div><div class="box dica"><div class="box-title">Por que essa plaqueta vale ouro</div><p>O <strong>código da cor</strong> é o dado mais valioso: permite conferir se o carro ainda está na cor de fábrica ou se foi repintado. É a base do Módulo 6.</p></div><h2><span class="num">1.6</span>Sinais de alerta na numeração</h2><ul><li><strong>Numeração remarcada:</strong> dígitos com espaçamento, profundidade ou tipografia fora do padrão da época.</li><li><strong>Solda/remendo no túnel</strong> justo na região do número — possível enxerto de assoalho.</li><li><strong>Plaqueta fora do padrão do ano</strong> (rebites errados, posição incoerente).</li><li><strong>Suspensão dianteira sem número</strong> → quadro trocado.</li><li><strong>Chassi ≠ plaqueta</strong> → alerta máximo.</li></ul><div class="box atencao"><div class="box-title">Regra de ouro</div><p>Originalidade sem <strong>identidade legítima</strong> não vale nada. Um Fusca "todo original" sobre uma identidade duvidosa é um problema, não um tesouro.</p></div><div class="chk"><div class="chk-title">✓ Checklist de datação — leve na vistoria</div><ul><li>Localizei e fotografei o <strong>número de chassi</strong> no túnel.</li><li>Achei a <strong>plaqueta de identificação</strong> e conferi se o chassi <strong>bate</strong>.</li><li>Observei a <strong>marcação física</strong> do túnel (ressalto / rebaixo / liso).</li><li>Anotei o <strong>número do motor</strong> (sem esperar que "case").</li><li>Verifiquei o <strong>número da suspensão dianteira</strong>.</li><li>Identifiquei a <strong>era da plaqueta</strong>.</li><li>Li o <strong>código da cor</strong> (se houver plaqueta de carroceria).</li><li>Procurei <strong>sinais de remarcação</strong>.</li></ul></div>
+<div class="foot">Curso Fusca Original — Módulo 1 Identificação & Datação · © Aircooled Market. Todos os direitos reservados. Reprodução proibida.</div>
+</div></body></html>
