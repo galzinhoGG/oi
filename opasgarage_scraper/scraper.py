@@ -296,9 +296,20 @@ SITEMAP_CANDIDATES = [
 def fetch_text(page, url: str) -> str:
     """Carrega uma URL na sessão logada e devolve o conteúdo (texto/HTML/XML)."""
     try:
-        resp = page.goto(url, wait_until="domcontentloaded", timeout=30000)
+        resp = page.goto(url, wait_until="domcontentloaded", timeout=45000)
         if resp and resp.status >= 400:
             return ""
+        # Sites que montam a página com JavaScript: dá um tempo pro conteúdo
+        # aparecer e rola a página pra carregar itens "preguiçosos".
+        try:
+            page.wait_for_load_state("networkidle", timeout=8000)
+        except Exception:
+            pass
+        try:
+            page.mouse.wheel(0, 4000)
+            page.wait_for_timeout(800)
+        except Exception:
+            pass
         return page.content()
     except Exception:
         return ""
@@ -360,6 +371,57 @@ def discover_from_listings(page, cfg: dict, pattern: re.Pattern) -> set:
             current = nxt
             time.sleep(cfg["delay_seconds"])
     return found
+
+
+def cmd_diagnose(cfg: dict) -> None:
+    """Lista os links internos encontrados na home e nas páginas de listagem,
+    para descobrir o padrão de URL dos posts."""
+    from bs4 import BeautifulSoup
+    from urllib.parse import urlparse as _up
+
+    base_host = _up(cfg["base_url"]).netloc
+    pages = [cfg["base_url"]] + list(cfg.get("listing_urls") or [])
+    pw, ctx, closer = launch_context(cfg, headless=cfg["headless_scrape"])
+    page = ctx.new_page()
+
+    all_links = {}
+    for u in pages:
+        html = fetch_text(page, u)
+        title = ""
+        try:
+            title = page.title()
+        except Exception:
+            pass
+        print(f"\n=== {u}")
+        print(f"    título: {title[:80]}")
+        if not html:
+            print("    (não carregou / vazio)")
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        links = []
+        for a in soup.find_all("a", href=True):
+            link = urljoin(u, a["href"].split("#")[0])
+            if _up(link).netloc == base_host and link not in links:
+                links.append(link)
+        print(f"    {len(links)} links internos:")
+        for link in links:
+            path = _up(link).path or "/"
+            all_links[link] = all_links.get(link, 0) + 1
+            print("      ", path)
+    page.close()
+    closer()
+
+    # Resumo dos "prefixos" de caminho, que ajuda a achar onde ficam os posts.
+    from collections import Counter
+    prefixes = Counter()
+    for link in all_links:
+        parts = urlparse(link).path.strip("/").split("/")
+        prefixes[("/" + parts[0]) if parts and parts[0] else "/"] += 1
+    print("\n=== Resumo por prefixo (candidatos a seção de posts):")
+    for pref, n in prefixes.most_common():
+        print(f"   {pref:20s} -> {n} links")
+    print("\nCopie esta saída e me mande, OU ajuste 'listing_urls' e "
+          "'post_url_pattern' no config.yaml.")
 
 
 def cmd_discover(cfg: dict) -> None:
@@ -582,13 +644,16 @@ def cmd_export(cfg: dict) -> None:
 # ---------------------------------------------------------------------------
 def main() -> None:
     parser = argparse.ArgumentParser(description="Scraper do Opas Garage (com autorização do dono).")
-    parser.add_argument("command", choices=["login", "discover", "scrape", "export", "all"],
+    parser.add_argument("command",
+                        choices=["login", "diagnose", "discover", "scrape", "export", "all"],
                         help="etapa a executar")
     args = parser.parse_args()
     cfg = load_config()
 
     if args.command == "login":
         cmd_login(cfg)
+    elif args.command == "diagnose":
+        cmd_diagnose(cfg)
     elif args.command == "discover":
         cmd_discover(cfg)
     elif args.command == "scrape":
