@@ -1,0 +1,10 @@
+# Dados e índice (podem ser grandes / conter conteúdo do acervo)
+posts.jsonl
+indice.npz
+chunks.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
