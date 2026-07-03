@@ -1,0 +1,5 @@
+playwright>=1.44
+trafilatura>=1.8
+beautifulsoup4>=4.12
+lxml>=5.0
+PyYAML>=6.0

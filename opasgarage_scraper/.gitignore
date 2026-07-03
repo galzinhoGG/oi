@@ -1,0 +1,14 @@
+# Sessão do navegador (contém cookies/login — NUNCA versionar)
+.pw-profile/
+
+# Configuração com dados do site
+config.yaml
+
+# Dados extraídos
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
