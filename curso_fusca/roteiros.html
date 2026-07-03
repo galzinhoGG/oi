@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Curso Fusca Original — Roteiro do Curso</title>
+<style>
+  @page { size:A4; margin:0; }
+  @page content { margin:16mm 16mm 18mm 16mm; }
+  * { box-sizing:border-box; }
+  html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  :root{ --ink:#22242a; --ink-soft:#55585f; --gold:#f3b12b; --gold-deep:#c8860f;
+         --charcoal:#1b1d22; --line:#e6e2d8; --cream:#faf7f0; }
+  body { font-family:"Georgia","Times New Roman",serif; color:var(--ink); font-size:11pt; line-height:1.5; margin:0; }
+  h1,h2,h3,.kicker,.brand,.badge,.mtitle,.pill,.tag { font-family:"Helvetica Neue",Arial,sans-serif; }
+
+  /* CAPA */
+  .cover { position:relative; width:210mm; height:297mm; background:var(--charcoal); color:#fff; page:cover; page-break-after:always; overflow:hidden; }
+  .cover::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:4mm; background:var(--gold); }
+  .cpad { position:absolute; inset:0; padding:26mm 22mm; display:flex; flex-direction:column; justify-content:space-between; }
+  .brand { display:flex; align-items:center; gap:9px; font-weight:800; font-size:15pt; }
+  .brand .a{ color:var(--gold);} .brand .m{ color:#fff;}
+  .brand svg{ width:38px; height:22px; }
+  .kicker { letter-spacing:.32em; text-transform:uppercase; font-size:9.5pt; color:var(--gold); font-weight:700; margin-bottom:5mm; }
+  .cover h1 { font-family:"Helvetica Neue",Arial,sans-serif; font-weight:800; font-size:42pt; line-height:1.03; margin:0 0 5mm; }
+  .cover h1 span{ color:var(--gold); }
+  .cover .sub { font-size:13pt; color:#c9cbd1; font-style:italic; max-width:150mm; }
+  .cover-hero{ text-align:center; } .cover-hero svg{ width:118mm; height:auto; }
+  .cfoot { display:flex; justify-content:space-between; align-items:flex-end; font-family:"Helvetica Neue",Arial,sans-serif; font-size:9.5pt; color:#8b8e96; }
+  .pill { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); border-radius:999px; padding:2mm 5mm; font-weight:700; font-size:9pt; letter-spacing:.06em; }
+
+  /* CONTEÚDO */
+  .content{ page:content; }
+  .intro-h { font-family:"Helvetica Neue",Arial,sans-serif; font-weight:800; font-size:20pt; color:var(--charcoal); margin:0 0 2mm; }
+  .intro-h::after{ content:""; display:block; width:24mm; height:3px; background:var(--gold); margin-top:2mm; }
+  .lead { font-size:11.5pt; color:var(--ink-soft); font-style:italic; margin-bottom:4mm; }
+
+  .mod { border:1px solid var(--line); border-left:5px solid var(--gold); border-radius:8px;
+         padding:5mm 6mm 4mm; margin:0 0 5mm; page-break-inside:avoid; background:#fff; }
+  .mhead { display:flex; align-items:center; gap:5mm; margin-bottom:2mm; }
+  .badge { flex:0 0 auto; width:13mm; height:13mm; border-radius:50%; background:var(--charcoal); color:var(--gold);
+           font-weight:800; font-size:15pt; display:flex; align-items:center; justify-content:center; }
+  .mtitle { font-weight:800; font-size:14pt; color:var(--charcoal); line-height:1.1; }
+  .mtitle small { display:block; font-weight:600; font-size:9pt; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:1mm; }
+  .obj { font-style:italic; color:var(--ink-soft); font-size:10.4pt; margin:1mm 0 3mm; }
+  .aulas { columns:2; column-gap:8mm; margin:0; padding:0; list-style:none; font-size:10.2pt; }
+  .aulas li { break-inside:avoid; padding-left:6mm; position:relative; margin-bottom:1.6mm; }
+  .aulas li::before{ content:"›"; position:absolute; left:0; color:var(--gold-deep); font-weight:800; font-size:12pt; top:-1px; }
+  .tag { display:inline-block; margin-top:2.5mm; font-family:"Helvetica Neue",Arial,sans-serif; font-size:8pt; letter-spacing:.05em;
+         text-transform:uppercase; color:var(--gold-deep); background:#fdf6e3; border:1px solid #f0dfae; border-radius:4px; padding:1mm 2.5mm; }
+  .bonus { border-left-color:#3f6d8c; }
+  .bonus .badge{ background:#274b63; color:#cfe3ef; }
+  .bonus .mtitle small{ color:#35617f; }
+  .pb{ page-break-before:always; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<section class="cover">
+  <div class="cpad">
+    <div class="brand">
+      <svg viewBox="0 0 120 66" fill="none"><path d="M8 48 C8 33 20 22 38 20 C48 9 66 6 80 12 C90 16 96 24 100 32 C110 33 116 40 114 48" stroke="#f3b12b" stroke-width="4.5" stroke-linecap="round"/><path d="M8 48 L114 48" stroke="#f3b12b" stroke-width="4.5" stroke-linecap="round"/><path d="M40 21 C48 14 64 12 78 16" stroke="#f3b12b" stroke-width="3"/><circle cx="34" cy="49" r="11" fill="#1b1d22" stroke="#f3b12b" stroke-width="4.5"/><circle cx="90" cy="49" r="11" fill="#1b1d22" stroke="#f3b12b" stroke-width="4.5"/><circle cx="34" cy="49" r="2.5" fill="#f3b12b"/><circle cx="90" cy="49" r="2.5" fill="#f3b12b"/></svg>
+      <span><span class="a">Aircooled</span> <span class="m">Market</span></span>
+    </div>
+    <div>
+      <div class="kicker">Produto Digital · Roteiro Completo</div>
+      <h1>Curso<br><span>Fusca Original</span></h1>
+      <div class="sub">O guia definitivo de originalidade do Fusca — do número de chassi ao último acessório de época</div>
+      <div class="cover-hero">
+        <svg viewBox="0 0 320 150" fill="none"><path d="M18 108 C18 74 44 50 84 46 C106 22 150 14 186 22 C214 28 232 44 244 64 C286 66 302 84 300 108" stroke="#f3b12b" stroke-width="6" stroke-linecap="round"/><path d="M18 108 L300 108" stroke="#f3b12b" stroke-width="6" stroke-linecap="round"/><path d="M92 48 C112 30 156 24 188 30 C206 33 220 42 230 56" stroke="#f3b12b" stroke-width="3.5" opacity="0.8"/><path d="M150 26 L150 54" stroke="#f3b12b" stroke-width="3" opacity="0.6"/><circle cx="86" cy="110" r="26" fill="#1b1d22" stroke="#f3b12b" stroke-width="6"/><circle cx="232" cy="110" r="26" fill="#1b1d22" stroke="#f3b12b" stroke-width="6"/><circle cx="86" cy="110" r="6" fill="#f3b12b"/><circle cx="232" cy="110" r="6" fill="#f3b12b"/></svg>
+      </div>
+    </div>
+    <div class="cfoot">
+      <span>9 módulos + bônus · apostilas em PDF</span>
+      <span class="pill">Roteiro do Curso</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEÚDO -->
+<div class="content">
+  <div class="intro-h">A jornada do aluno</div>
+  <p class="lead">Nove módulos que levam o aluno do "não sei nada de chapa" ao olhar treinado de quem
+  identifica um Fusca original — ou uma armadilha — em minutos. Cada módulo é uma apostila em PDF, com
+  exemplos práticos, checklists e espaço para fotos.</p>
+
+  <!-- M1 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">1</div>
+      <div class="mtitle"><small>Fundamento</small>Identificação &amp; Datação</div></div>
+    <div class="obj">Ler o "RG" do Fusca e descobrir com segurança o ano e a identidade real do carro.</div>
+    <ul class="aulas">
+      <li>Os sete números do Fusca e onde ficam</li>
+      <li>A regra de ouro: chassi = plaqueta</li>
+      <li>Marcação do túnel: ressalto, rebaixo e liso</li>
+      <li>As eras da plaqueta (alemã → BJ/BS → sem plaqueta)</li>
+      <li>A plaqueta da carroceria e o código de cor</li>
+      <li>Sinais de remarcação e fraude</li>
+    </ul>
+    <span class="tag">✓ apostila pronta</span>
+  </div>
+
+  <!-- M2 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">2</div>
+      <div class="mtitle"><small>Linha do tempo</small>Evolução do Fusca Ano a Ano</div></div>
+    <div class="obj">Reconhecer cada fase de produção pela aparência — e casar a "cara" do carro com a chapa.</div>
+    <ul class="aulas">
+      <li>Split e Zwitter: os primeiros besouros</li>
+      <li>Vidro oval e a transição dos anos 50</li>
+      <li>Do "cara de sapo" ao corujão</li>
+      <li>Fusca alemão × Fusca nacional</li>
+      <li>Fuscão 1500/1600 e o Fusca Itamar (93–96)</li>
+      <li>Apelidos, versões e séries especiais (Pé-de-Boi, etc.)</li>
+    </ul>
+  </div>
+
+  <!-- M3 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">3</div>
+      <div class="mtitle"><small>Externo</small>Carroceria &amp; Detalhes Externos</div></div>
+    <div class="obj">Saber qual peça externa é correta para cada ano — e flagrar o que é reposição errada.</div>
+    <ul class="aulas">
+      <li>Parachoques por ano e batentes de proteção</li>
+      <li>Frisos, emblemas e escudos</li>
+      <li>Faróis e lanternas (evolução por fase)</li>
+      <li>Vidros, borrachas e maçanetas</li>
+      <li>Espelhos retrovisores externos e internos</li>
+      <li>Rodas, calotas e pneus de época</li>
+    </ul>
+  </div>
+
+  <!-- M4 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">4</div>
+      <div class="mtitle"><small>Mecânica</small>Motor &amp; Conjunto de Época</div></div>
+    <div class="obj">Entender o motor correto de cada fase e o que descaracteriza a originalidade mecânica.</div>
+    <ul class="aulas">
+      <li>1200, 1300, 1500 e 1600: qual em cada ano</li>
+      <li>Lendo o número e o tipo do motor</li>
+      <li>Carburação original × dupla carburação</li>
+      <li>6V × 12V: gerador e alternador</li>
+      <li>Sistema de ar quente e aquecimento</li>
+      <li>Câmbio e suspensões: numeração e originalidade</li>
+    </ul>
+  </div>
+
+  <!-- M5 -->
+  <div class="mod pb">
+    <div class="mhead"><div class="badge">5</div>
+      <div class="mtitle"><small>Interno</small>Interior Original</div></div>
+    <div class="obj">Reconhecer o interior de fábrica de cada fase — do painel ao forro de porta.</div>
+    <ul class="aulas">
+      <li>Bancos e forração por ano</li>
+      <li>Painel, instrumentos e o relógio de horas</li>
+      <li>Volantes originais por fase</li>
+      <li>Maçanetas internas, manivelas e puxadores</li>
+      <li>Tapetes, forros e acabamentos</li>
+      <li>Capas Copacabana e itens de época do interior</li>
+    </ul>
+  </div>
+
+  <!-- M6 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">6</div>
+      <div class="mtitle"><small>Pintura</small>Cores Originais</div></div>
+    <div class="obj">Dominar os códigos de cor e provar se o carro está na cor de fábrica.</div>
+    <ul class="aulas">
+      <li>Como funciona o código de cor da plaqueta</li>
+      <li>Cores nacionais ano a ano</li>
+      <li>Cores dos Fuscas alemães</li>
+      <li>Cores metálicas e combinações especiais</li>
+      <li>Detectando repintura e mudança de cor</li>
+      <li>Tabelas de consulta rápida de cores</li>
+    </ul>
+  </div>
+
+  <!-- M7 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">7</div>
+      <div class="mtitle"><small>Colecionismo</small>Acessórios de Época</div></div>
+    <div class="obj">Diferenciar NOS, reposição e réplica — e conhecer os acessórios que valorizam o carro.</div>
+    <ul class="aulas">
+      <li>NOS × reposição × réplica: como identificar</li>
+      <li>As marcas de época: Hella, Bosch, Kamei, EMPI, Norfol</li>
+      <li>Bagageiros, itens de camping e "veneno de época"</li>
+      <li>Fornecedores oficiais VW e suas marcas</li>
+      <li>Peças "rarest of the rare"</li>
+      <li>Datando um acessório pela marcação</li>
+    </ul>
+  </div>
+
+  <!-- M8 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">8</div>
+      <div class="mtitle"><small>Prática</small>Avaliação &amp; Compra</div></div>
+    <div class="obj">Aplicar tudo numa vistoria real: avaliar originalidade e não cair em armadilha.</div>
+    <ul class="aulas">
+      <li>O checklist mestre de originalidade</li>
+      <li>Armadilhas comuns e "gato por lebre"</li>
+      <li>Documentação: o que conferir</li>
+      <li>Como precificar pela originalidade</li>
+      <li>Concessionárias e história de procedência</li>
+      <li>Montando o dossiê do carro</li>
+    </ul>
+  </div>
+
+  <!-- M9 -->
+  <div class="mod">
+    <div class="mhead"><div class="badge">9</div>
+      <div class="mtitle"><small>Preservação</small>Restaurar sem Descaracterizar</div></div>
+    <div class="obj">Restaurar preservando a originalidade — decidir o que manter, recuperar ou repor.</div>
+    <ul class="aulas">
+      <li>Filosofia: originalidade × restauro × customização</li>
+      <li>O que sempre preservar</li>
+      <li>Reposição correta: escolhendo peças certas</li>
+      <li>Pintura e cor: mantendo o código de fábrica</li>
+      <li>Erros que derrubam o valor</li>
+      <li>Certificação e veículo de coleção</li>
+    </ul>
+  </div>
+
+  <!-- BÔNUS -->
+  <div class="mod bonus">
+    <div class="mhead"><div class="badge">★</div>
+      <div class="mtitle"><small>Bônus / upsell</small>Os Outros Refrigerados a Ar</div></div>
+    <div class="obj">Estender o método de originalidade para a família aircooled — material extra ou curso 2.</div>
+    <ul class="aulas">
+      <li>Kombi: identificação e acessórios</li>
+      <li>Brasília e Variant</li>
+      <li>Karmann Ghia</li>
+      <li>Aplicando o mesmo olhar de originalidade</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
