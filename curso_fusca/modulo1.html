@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Fusca Original — Módulo 1</title>
+<style>
+  @page { size: A4; margin: 20mm 18mm 22mm 18mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: "Georgia", "Times New Roman", serif;
+    color: #23201c; font-size: 11.2pt; line-height: 1.55; margin: 0;
+  }
+  h1, h2, h3, .tag, .cover-kicker, th, .checklist-title, .box-title { font-family: "Helvetica Neue", Arial, sans-serif; }
+
+  /* ---------- CAPA ---------- */
+  .cover { height: 253mm; display: flex; flex-direction: column; justify-content: space-between;
+           page-break-after: always; padding: 8mm 0; }
+  .cover-top { border-top: 6px solid #b5411f; padding-top: 10mm; }
+  .cover-kicker { letter-spacing: .28em; text-transform: uppercase; font-size: 10pt; color: #b5411f; font-weight: 700; }
+  .cover h1 { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 40pt; line-height: 1.05;
+              margin: 6mm 0 4mm; color: #23201c; }
+  .cover h1 span { color: #b5411f; }
+  .cover .sub { font-size: 14pt; color: #6b5d4f; font-style: italic; }
+  .cover-mid { text-align: center; }
+  .beetle { font-size: 90pt; line-height: 1; }
+  .cover-foot { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; color: #8a7c6d;
+                border-top: 1px solid #ddd4c8; padding-top: 5mm; display: flex; justify-content: space-between; }
+
+  /* ---------- CONTEÚDO ---------- */
+  h2 { font-size: 17pt; color: #b5411f; margin: 9mm 0 2mm; padding-bottom: 2mm;
+       border-bottom: 2px solid #ecd9c6; }
+  h2 .num { color: #c9a37a; margin-right: 6px; }
+  h3 { font-size: 12.5pt; color: #3a332c; margin: 6mm 0 1mm; }
+  p { margin: 0 0 3mm; text-align: justify; }
+  ul, ol { margin: 0 0 3mm; padding-left: 6mm; }
+  li { margin-bottom: 1.5mm; }
+  strong { color: #1a1712; }
+  .lead { font-size: 12pt; color: #5a4f43; font-style: italic; }
+
+  /* caixas de destaque */
+  .box { border-radius: 6px; padding: 4mm 5mm; margin: 4mm 0; page-break-inside: avoid; font-size: 10.6pt; }
+  .box-title { font-size: 9.5pt; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; margin-bottom: 1.5mm; }
+  .box p:last-child { margin-bottom: 0; }
+  .box.dica { background: #f2f7ee; border-left: 4px solid #6f9c4b; }
+  .box.dica .box-title { color: #4d7a2b; }
+  .box.atencao { background: #fdf3ec; border-left: 4px solid #d0742f; }
+  .box.atencao .box-title { color: #b5411f; }
+  .box.opas { background: #eef3f7; border-left: 4px solid #3f6d8c; }
+  .box.opas .box-title { color: #35617f; }
+
+  /* tabelas */
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0 4mm; font-size: 10pt; page-break-inside: avoid; }
+  th { background: #b5411f; color: #fff; text-align: left; padding: 2.4mm 3mm; font-size: 9.5pt;
+       text-transform: uppercase; letter-spacing: .04em; }
+  td { padding: 2.2mm 3mm; border-bottom: 1px solid #e7ddd0; vertical-align: top; }
+  tr:nth-child(even) td { background: #faf6f0; }
+  .mono { font-family: "Courier New", monospace; }
+
+  /* checklist */
+  .checklist { background: #faf6f0; border: 1px solid #e7ddd0; border-radius: 6px; padding: 5mm 6mm; margin: 4mm 0; page-break-inside: avoid; }
+  .checklist-title { color: #b5411f; text-transform: uppercase; letter-spacing: .1em; font-size: 10pt; font-weight: 700; margin-bottom: 3mm; }
+  .checklist ul { list-style: none; padding-left: 0; }
+  .checklist li { padding-left: 8mm; position: relative; margin-bottom: 2.5mm; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; font-size: 13pt; color: #b5411f; top: -1px; }
+
+  .pb { page-break-before: always; }
+  .footer-note { margin-top: 8mm; padding-top: 3mm; border-top: 1px solid #ddd4c8;
+                 font-size: 9pt; color: #8a7c6d; font-family: "Helvetica Neue", Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- ================= CAPA ================= -->
+<section class="cover">
+  <div class="cover-top">
+    <div class="cover-kicker">Curso Fusca Original · Apostila</div>
+    <h1>Módulo 1<br><span>Identificação &amp; Datação</span></h1>
+    <div class="sub">Como descobrir, com segurança, o ano e a identidade real de um Fusca</div>
+  </div>
+  <div class="cover-mid">
+    <div class="beetle">🚙</div>
+  </div>
+  <div class="cover-foot">
+    <span>Fusca brasileiro · 1959–1986 / 1993–1996</span>
+    <span>Módulo 1 de 9</span>
+  </div>
+</section>
+
+<!-- ================= INTRO ================= -->
+<h2><span class="num">1.0</span>Por que datar e identificar vem primeiro</h2>
+<p class="lead">Antes de falar em parachoque, cor ou motor original, é preciso responder a uma pergunta:
+que Fusca é esse, afinal, e de que ano ele realmente é?</p>
+<p>Toda avaliação de originalidade parte da <strong>identidade correta do carro</strong>. Um item "original"
+só faz sentido quando você sabe <em>original de quê</em> — de que ano, de que versão, de que fase de produção.
+O mesmo parachoque pode ser certíssimo num 1972 e completamente errado num 1965.</p>
+<p>Por isso este é o Módulo 1. Aqui você aprende a ler o "RG" do Fusca — número de chassi, plaqueta e número
+de motor — e a separar três coisas que muita gente confunde: <strong>ano de fabricação</strong>,
+<strong>ano/modelo</strong> e <strong>ano do documento</strong>.</p>
+
+<div class="box atencao">
+  <div class="box-title">Atenção · o erro mais comum</div>
+  <p>O ano no documento (CRLV) nem sempre é o ano real do carro. Documento se ajusta, remarca, atrasa.
+  A <strong>chapa não mente</strong> na mesma medida: chassi e plaqueta contam a história verdadeira.
+  Aprenda a confiar neles.</p>
+</div>
+
+<!-- ================= 1.1 ================= -->
+<h2><span class="num">1.1</span>Onde o Fusca guarda seus números</h2>
+<p>São três pontos de identificação. Decore os três — eles serão sua bússola no curso inteiro.</p>
+
+<h3>a) Número de chassi (o principal)</h3>
+<p>Gravado <strong>no túnel central, sob o banco traseiro</strong>. Levante o estofado do banco de trás e
+procure a numeração batida diretamente na chapa do assoalho central. É a referência número um: é dele que
+sai o ano e a sequência de produção.</p>
+
+<h3>b) Plaqueta de identificação</h3>
+<p>Uma plaqueta metálica rebitada, que a fábrica <strong>mudou de lugar ao longo dos anos</strong> — e essa
+migração, por si só, já ajuda a datar o carro:</p>
+<table>
+  <tr><th>Período</th><th>Onde a plaqueta ficava</th></tr>
+  <tr><td>até ano/modelo 1963</td><td>no compartimento do motor, à direita, junto ao tanque de combustível</td></tr>
+  <tr><td>1964 a 1975</td><td>ao lado direito da canaleta de ar, no compartimento do motor</td></tr>
+  <tr><td>a partir de 1976</td><td>na parede divisória do salão, atrás do encosto do banco do motorista</td></tr>
+</table>
+
+<h3>c) Número do motor</h3>
+<p>Gravado no <strong>bloco do motor</strong>, na aba de apoio do gerador/alternador (parte superior do bloco,
+próximo à ventoinha). Importante: o motor é a peça que <strong>mais troca de carro</strong> na vida de um
+Fusca — então o número do motor raramente "casa" com o chassi, e isso <em>não</em> é necessariamente problema.
+O que ele revela é o <strong>tipo/geração</strong> do motor, assunto do Módulo 4.</p>
+
+<div class="box dica">
+  <div class="box-title">Dica de campo</div>
+  <p>Leve uma lanterna, um pano e uma escova de dentes velha. Décadas de graxa escondem numeração.
+  Limpe com cuidado antes de fotografar — e fotografe <em>tudo</em>, de vários ângulos, para conferir depois com calma.</p>
+</div>
+
+<!-- ================= 1.2 ================= -->
+<h2 class="pb"><span class="num">1.2</span>Lendo o número de chassi</h2>
+<p>O formato do chassi mudou em fases. Identifique primeiro em que fase o carro está e depois aplique a leitura.</p>
+
+<h3>Fase 1 — até 1969</h3>
+<p>Estrutura: <span class="mono">letra do país + dígito do ano + 6 dígitos de sequência</span>.
+A letra <span class="mono">B</span> indica Brasil; o segundo caractere é o <strong>ano</strong>:</p>
+<table>
+  <tr><th>Dígito</th><th>Ano</th><th>Dígito</th><th>Ano</th></tr>
+  <tr><td class="mono">2</td><td>1962</td><td class="mono">6</td><td>1966</td></tr>
+  <tr><td class="mono">3</td><td>1963</td><td class="mono">7</td><td>1967</td></tr>
+  <tr><td class="mono">4</td><td>1964</td><td class="mono">8</td><td>1968</td></tr>
+  <tr><td class="mono">5</td><td>1965</td><td class="mono">9</td><td>1969</td></tr>
+</table>
+<p>Exemplo: um chassi começando por <span class="mono">B6…</span> é um Fusca brasileiro de 1966.</p>
+
+<h3>Fase 2 — de 1970 a 1982</h3>
+<p>A numeração passa a ter <strong>oito dígitos</strong>. O <span class="mono">B</span> de Brasil permanece,
+mas o segundo caractere passa a ser uma <strong>letra que identifica o modelo/ano</strong> (não mais o dígito
+simples do ano). A leitura exata dessa letra é o tipo de detalhe que vale <strong>conferir caso a caso</strong>
+— veja a caixa abaixo.</p>
+
+<h3>Fase 3 — padrão VIN de 17 caracteres (dos anos 1980 em diante)</h3>
+<p>Alinhado ao padrão internacional, o chassi passa a ter <strong>17 caracteres</strong> (letras e números).
+Nesse padrão, o ano é indicado por um caractere específico do código — por letras
+(<span class="mono">A</span> = 1980 … <span class="mono">Y</span> = 2000) e depois por números
+(<span class="mono">1</span> = 2001 em diante). Vale principalmente para as últimas fases e para a
+"segunda geração" (Fusca 1993–1996, o "Fusca Itamar").</p>
+
+<div class="box opas">
+  <div class="box-title">Na dúvida → Opas Garage</div>
+  <p>As tabelas de letras de modelo (Fase 2) e alguns detalhes de sequência variam conforme a fonte.
+  Neste curso, sempre que houver divergência entre acervos, adotamos a leitura do <strong>Opas Garage</strong>
+  como referência de desempate. Trate as tabelas acima como guia geral e confirme os casos específicos.</p>
+</div>
+
+<!-- ================= 1.3 ================= -->
+<h2><span class="num">1.3</span>Ano de fabricação × ano/modelo × documento</h2>
+<p>Três "anos" convivem no mesmo carro. Confundi-los é a origem de metade das discussões sobre originalidade:</p>
+<table>
+  <tr><th>Termo</th><th>O que é</th><th>Onde consultar</th></tr>
+  <tr><td><strong>Ano de fabricação</strong></td><td>quando o carro foi efetivamente montado</td><td>chassi + plaqueta</td></tr>
+  <tr><td><strong>Ano/modelo</strong></td><td>o "ano-modelo" comercial da VW, que muda antes do ano-calendário</td><td>plaqueta / características do carro</td></tr>
+  <tr><td><strong>Ano do documento</strong></td><td>o que consta no CRLV — pode não refletir o carro real</td><td>documento do veículo</td></tr>
+</table>
+<p>Um Fusca fabricado no fim de 1971, por exemplo, pode já ser <strong>ano/modelo 1972</strong>. E se em algum
+momento foi reemplacado ou teve documento refeito, o ano do papel pode estar defasado. <strong>Datar pela chapa
+resolve a ambiguidade.</strong></p>
+
+<!-- ================= 1.4 ================= -->
+<h2><span class="num">1.4</span>Sinais de alerta na numeração</h2>
+<p>Datar também é <em>desconfiar</em>. Fique atento a:</p>
+<ul>
+  <li><strong>Numeração remarcada ou "puxada":</strong> dígitos com espaçamento irregular, profundidade
+  diferente, tipografia que não bate com o padrão da época.</li>
+  <li><strong>Chapa do túnel com solda/remendo</strong> justamente na região do número — pode indicar enxerto
+  de assoalho ou tentativa de alterar a identidade.</li>
+  <li><strong>Plaqueta no lugar "errado" para o ano</strong> (compare com a tabela de 1.1-b): plaqueta solta,
+  rebites novos ou posição incoerente pedem investigação.</li>
+  <li><strong>Divergência grosseira</strong> entre o que a chapa diz e as características visíveis do carro
+  (assunto dos próximos módulos).</li>
+</ul>
+
+<div class="box atencao">
+  <div class="box-title">Regra de ouro</div>
+  <p>Originalidade sem <strong>identidade legítima</strong> não vale nada. Antes de valorizar um carro pelos
+  detalhes, confirme que o chassi é são e coerente. Um Fusca "todo original" sobre uma identidade duvidosa
+  é um problema, não um tesouro.</p>
+</div>
+
+<!-- ================= CHECKLIST ================= -->
+<div class="checklist">
+  <div class="checklist-title">✓ Checklist de datação — leve na vistoria</div>
+  <ul>
+    <li>Localizei e fotografei o <strong>número de chassi</strong> no túnel, sob o banco traseiro.</li>
+    <li>Localizei a <strong>plaqueta</strong> e conferi se a posição bate com o período (tabela 1.1-b).</li>
+    <li>Li o <strong>ano pelo chassi</strong> aplicando a fase correta (até 69 / 70–82 / VIN 17).</li>
+    <li>Anotei o <strong>número do motor</strong> (sem esperar que "case" com o chassi).</li>
+    <li>Comparei <strong>ano da chapa × ano/modelo × ano do documento</strong> e entendi as diferenças.</li>
+    <li>Procurei <strong>sinais de remarcação</strong>, solda na região do número e plaqueta fora do padrão.</li>
+    <li>Em qualquer dúvida de leitura, marquei para <strong>conferir no acervo de referência</strong>.</li>
+  </ul>
+</div>
+
+<h3>No próximo módulo</h3>
+<p><strong>Módulo 2 — Evolução ano a ano.</strong> Agora que você sabe datar, vamos ao que muda visual e
+tecnicamente em cada fase do Fusca brasileiro (do "cara de sapo" ao corujão), para que a datação da chapa e a
+"cara" do carro contem a mesma história.</p>
+
+<div class="footer-note">
+  Curso Fusca Original — Módulo 1 · Material didático original. As especificações técnicas são de domínio público;
+  o texto e a diagramação são de autoria própria. Datações e detalhes específicos devem ser confirmados no acervo
+  de referência do curso (Opas Garage) em caso de divergência entre fontes.
+</div>
+
+</body>
+</html>
