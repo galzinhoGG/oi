@@ -42,18 +42,18 @@ pode não ser seguro" / a tela trava). Por isso, com login Google, use o modo
 normalmente (o Google aceita, é um Chrome de verdade), e o scraper se conecta
 nesse Chrome. No `config.yaml`, deixe `use_cdp: true` (já vem assim).
 
-**Windows** — feche todas as janelas do Chrome e, no PowerShell, rode o atalho:
-```powershell
-.\abrir_chrome_login.bat
-```
-Ou o comando completo (numa linha só):
-```powershell
-& "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\Users\User\Downloads\Scraper\chrome-profile"
-```
+> ⚠️ **O Google bloqueia o login quando a depuração está ligada** (o popup de
+> login abre em branco). Por isso o login é feito em **2 etapas**: primeiro no
+> Chrome normal, depois reabrindo o mesmo perfil com depuração.
 
-Vai abrir uma janela do Chrome. **Nela, faça login no Opas Garage** (com o
-Google/2FA, normal — agora funciona). **Deixe essa janela aberta** e volte ao
-PowerShell. Confirme a conexão:
+**Windows — Passo 1: logar (Chrome normal).** Feche todas as janelas do Chrome e
+dê dois cliques em **`passo1_logar.bat`**. Vai abrir o Opas Garage no Chrome
+normal — **faça login com o Google** (agora funciona). Depois de logado, **feche
+o Chrome por completo** (todas as janelas).
+
+**Windows — Passo 2: reabrir com depuração.** Dê dois cliques em
+**`abrir_chrome_login.bat`**. O site abre **já logado** (a sessão ficou salva).
+**Deixe essa janela aberta.** Volte ao PowerShell e confirme:
 ```powershell
 python scraper.py login
 ```

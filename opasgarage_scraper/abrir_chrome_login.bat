@@ -1,14 +1,17 @@
 @echo off
 REM ============================================================
-REM  Abre o Google Chrome com depuracao ligada (porta 9222)
-REM  para o scraper conseguir se conectar a sessao ja logada.
+REM  PASSO 2 de 2 - Abre o Chrome COM depuracao (porta 9222),
+REM  reusando o perfil onde voce JA logou no PASSO 1.
+REM
+REM  IMPORTANTE: rode o PASSO 1 (passo1_logar.bat) e feche o
+REM  Chrome antes. Aqui voce NAO precisa logar de novo - a
+REM  sessao ja esta salva. (O Google bloqueia login com a
+REM  depuracao ligada; por isso o login e feito no passo 1.)
 REM
 REM  COMO USAR:
-REM   1) Feche TODAS as janelas do Chrome antes de rodar isto.
-REM   2) De dois cliques neste arquivo (ou rode no PowerShell:
-REM        .\abrir_chrome_login.bat  )
-REM   3) Na janela do Chrome que abrir, faca login no Opas Garage
-REM      (com o Google, normal). DEIXE a janela aberta.
+REM   1) Ja fez o PASSO 1 e fechou o Chrome? Entao siga.
+REM   2) De dois cliques neste arquivo.
+REM   3) O Opas Garage deve abrir JA LOGADO. DEIXE a janela aberta.
 REM   4) Volte ao PowerShell e rode:  python scraper.py all
 REM ============================================================
 
@@ -26,6 +29,6 @@ if not exist "%CHROME%" (
   exit /b 1
 )
 
-echo Abrindo o Chrome com depuracao na porta 9222...
-echo Faca login no Opas Garage na janela que abrir e DEIXE aberta.
-start "" "%CHROME%" --remote-debugging-port=9222 --user-data-dir="%PROFILE%"
+echo Abrindo o Chrome com depuracao na porta 9222 (ja deve estar logado)...
+echo DEIXE a janela aberta e rode no PowerShell:  python scraper.py all
+start "" "%CHROME%" --remote-debugging-port=9222 --user-data-dir="%PROFILE%" "https://opasgarage.com.br"
